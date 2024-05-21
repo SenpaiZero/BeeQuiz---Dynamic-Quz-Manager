@@ -1,0 +1,36 @@
+.headerAnimContainer {
+  margin-top: 10em;
+}
+.lineHeader {
+    width: 100vw;
+  }
+.leftHeader, .rightHeader {
+  width: 50vw;
+  overflow: hidden;
+  display: inline-block;
+}
+.leftHeader {
+  color:pink;
+  transform: skew(0deg, -15deg);
+}
+.rightHeader {
+  color: black;
+  transform: skew(0deg, 15deg);
+}
+.leftHeader .contentHeader {
+  width: 100vw;
+  text-align: center;
+}
+.rightHeader .contentHeader {
+  width: 100vw;
+  text-align: center;
+  transform: translate(-50vw);
+}
+.spanHeader {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(6rem, 10vw, 15rem);
+  text-transform: uppercase;
+  line-height: .8;
+  transition: ease-out .6s;
+}

@@ -1,0 +1,160 @@
+:root {
+    --accent: #04da97;
+    --border-width: 6px;
+    --border-radius: 55px;
+    --font-size: 30px;
+}
+* {
+    padding: 0;
+    margin: 0;
+}
+body, html {
+    font-family: sans-serif;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; 
+}
+
+
+.toggle {
+    position: relative;
+    border: solid var(--border-width) var(--accent);
+    border-radius: var(--border-radius);
+    transition: transform cubic-bezier(0, 0, 0.30, 2) .4s;
+    transform-style: preserve-3d;
+    perspective: 800px;
+}
+
+.toggle > input[type="radio"] {
+    display: none;
+}
+
+.toggle > #choice1:checked ~ #flap {
+    transform: rotateY(-180deg);
+}
+
+.toggle > #choice1:checked ~ #flap > .content {
+    transform: rotateY(-180deg);
+}
+
+.toggle > #choice2:checked ~ #flap {
+    transform: rotateY(0deg);
+}
+
+.toggle > label {
+    display: inline-block;
+    width: 10vw;
+    padding: 30px;
+    font-size: 2vw;
+    text-align: center;
+    color: var(--accent);
+    cursor: pointer;
+}
+
+.toggle > label,
+.toggle > #flap {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.toggle > #flap {
+    position: absolute;
+    top: calc(0px - var(--border-width));
+    left: 50%;
+    height: calc(100% + var(--border-width) * 2);
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3vw;
+    background-color: var(--accent);
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    transform-style: preserve-3d;
+    transform-origin: left;
+    transition: transform cubic-bezier(0.4, 0, 0.2, 1) .5s;
+}
+
+.toggle > #flap > .content {
+    color: #333;
+    transition: transform 0s linear .25s;
+    transform-style: preserve-3d;
+}
+
+.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    transition: none !important;
+    animation: none !important;
+}
+.joinInput {
+    display: block;
+    border: none;
+    padding: 0;
+    width: 10.5ch;
+    color: dodgerblue;
+    background: repeating-linear-gradient(
+        90deg,
+        rgb(199, 255, 139) 0,
+        rgb(199, 255, 139) 1ch,
+        transparent 0,
+        transparent 1.5ch
+    ) 0 100% / 10ch 2px no-repeat;
+    font: 5ch 'Droid Sans Mono', consolas, monospace;
+    letter-spacing: 0.5ch;
+}
+
+.joinInput:focus {
+    outline: none;
+    color: rgb(60, 255, 30);
+}
+
+.joinInputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+}
+
+.tutorialContainer {
+    position: relative;
+    display: flex;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    height: auto;
+    width: 100%;
+}
+.tutorialContainer > div {
+    width: 45%;
+    color: white;
+    border-radius: 7px;
+    padding: 20px;
+}
+
+.tutorialContainer > div > h1 {
+    text-align: center;
+}
+
+.tutorialContainer > div > ol {
+    margin-top: 10px;
+    background-color: orange;
+    border-radius: 20px;
+    padding: 50px;
+    word-break: break-all;
+}
+@media only screen and (max-width: 800px) {
+    .tutorialContainer > div {
+        width: 90%;
+    }
+}

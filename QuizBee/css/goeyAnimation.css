@@ -1,0 +1,87 @@
+
+.animatedSection {
+    z-index: 1;
+    --footer-background: #042745;
+    position: relative;
+    width: 100vw;
+}
+
+.bubblesGoey {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--footer-background);
+    filter: url("#blob");
+}
+
+.bubbleGoey {
+    position: absolute;
+    left: var(--position, 50%);
+    background: var(--footer-background);
+    border-radius: 100%;
+    animation: bubble-size var(--time, 4s) ease-in infinite var(--delay, 0s), bubble-move var(--time, 4s) ease-in infinite var(--delay, 0s);
+    transform: translate(-50%, 100%);
+    pointer-events: none; 
+}
+
+.contentGoey {
+    z-index: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--footer-background);
+}
+
+.contentGoey a,
+.contentGoey p {
+    color: #F5F7FA;
+    text-decoration: none;
+}
+
+.contentGoey b {
+    color: white;
+}
+
+.contentGoey p {
+    margin: 0;
+    font-size: .75rem;
+}
+
+.contentGoey > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contentGoey > div > div {
+    margin: 0.25rem 0;
+}
+
+.contentGoey > div > div > * {
+    margin-right: .5rem;
+}
+
+@keyframes bubble-size {
+    0%,
+    75% {
+        width: var(--size, 4rem);
+        height: var(--size, 4rem);
+    }
+
+    100% {
+        width: 0rem;
+        height: 0rem;
+    }
+}
+
+@keyframes bubble-move {
+    0% {
+        bottom: -4rem;
+    }
+
+    100% {
+        bottom: var(--distance, 10rem);
+    }
+}
