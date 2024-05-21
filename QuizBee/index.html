@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BeeQuiz</title>
     <link href="css/loginbox.css" rel="stylesheet"/>
     <link href="css/headerAnim.css" rel="stylesheet"/>
     <link href="css/style.css" rel="stylesheet"/>
@@ -79,7 +78,7 @@
                           <input type="password" name="" required="" id="passwordTxt">
                           <label>Password</label>
                       </div>
-                      <a href="teacher.html" id="submitBtn">
+                      <a href="#" id="loginBtn">
                           <span></span>
                           <span></span>
                           <span></span>
@@ -95,7 +94,7 @@
             <div id="registerBox" class="hidden">
 
               <h2>Register</h2>
-              <form>
+              <form id="registerForm">
               <div class="user-box">
                 <input type="text" name="" required="" id="regFullNameTxt">
                 <label>Full Name</label>
@@ -121,7 +120,7 @@
                   <label>Confirm Password</label>
               </div>
 
-              <a href="#" id="submitBtn">
+              <a href="#" id="signupBtn">
                   <span></span>
                   <span></span>
                   <span></span>
@@ -154,8 +153,6 @@
       </div>
       <!--End Container for login and join-->
     </div>
-
-    <!--Start Help section with animation-->
     <div class="animatedSection">
       <div class="bubblesGoey">
           <div class="bubbleGoey" style="--size:2.8rem; --distance:6rem; --position:25%; --time:2.5s; --delay:-4s;"></div>
@@ -166,9 +163,8 @@
           <div class="bubbleGoey" style="--size:2.8rem; --distance:7rem; --position:80%; --time:3.5s; --delay:-2.5s;"></div>
           <div class="bubbleGoey" style="--size:2.8rem; --distance:7rem; --position:5%; --time:3.5s; --delay:-2.5s;"></div>
           <div class="bubbleGoey" style="--size:2.8rem; --distance:7rem; --position:95%; --time:3.5s; --delay:-2.5s;"></div>
+          <!-- Add more bubbles as needed -->
       </div>
-      <!--End Help section with animation-->
-
       <!--Tutorial Section-->
       <div class="contentGoey">
             <h1 style="margin: 30px; color: white;">DO YOU NEED HELP?</h1>
@@ -215,8 +211,19 @@
       </div>
       <!--End Tutorial Section-->
   </div>
+   
+  
+  
+
     <script src="Javascripts/toggleAnimation.js"></script>
     <script src="Javascripts/headerAnim.js"></script>
+
     <script src="Javascripts/homepage.js"></script>
+    <script type="module" src="Javascripts/firebase.js"></script>
+    <script type="module" src="Javascripts/register.js"></script>
+    <script type="module" src="Javascripts/login.js"></script>
+
+   
 </body>
 </html>
+

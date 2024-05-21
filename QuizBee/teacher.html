@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeeQuiz | Teacher</title>
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/loginbox.css" rel="stylesheet"/>
     <link href="css/backgroundRipple.css" rel="stylesheet"/>
 </head>
 <body class="teacherBody">
@@ -42,18 +43,11 @@
                     <h2>EMAIL ADDRESS</h2>
                     <span>YGISANTOSASASDASHAOSIDA@GMAIL.COM</span>
                 </div>
-                <div class="profileRow">
-                    <h2>OTHER INFORMATION</h2>
-                    <span>ASDIUAGSDO*IUGASIODUGASIUDGAASDASDASDASDASDSUID</span>
-                </div>
-                <div class="profileRow">
-                    <h2>OTHER INFORMATION</h2>
-                    <span>ASDIUAGSDO*IUGASIODUGASIUDGAASDASDASDASDASDSUID</span>
-                </div>
-                <div class="profileRow">
-                    <h2>OTHER INFORMATION</h2>
-                    <span>ASDIUAGSDO*IUGASIODUGASIUDGAASDASDASDASDASDSUID</span>
-                </div>
+                
+            </div>
+            <div class="profileBtnCon">
+                <div id="changePasswordBtn">CHANGE PASSWORD</div>
+                <div id="updateInformationBtn">CHANGE INFORMATIONS</div>
             </div>
         </div>
         <div class="teacherCol">
@@ -80,8 +74,86 @@
                 <h1>LOGOUT</h1>
             </div>
         </div>
+        
     </div>
-    
+
+    <div class="updateModal login-box modal-container hidden" id="updateContainer">
+          <!--Start of update info-->
+          <div id="updateInfoBox" class="hidden">
+
+            <h2 class="modalTitle">UPDATE INFORMATION</h2>
+            <form>
+            <div class="user-box modal">
+              <input type="text" name="" required="" id="updFullNameTxt">
+              <label>Full Name</label>
+            </div>
+
+            <div class="user-box modal">
+              <input type="text" name="" required="" id="updUsernameTxt">
+              <label>Username</label>
+            </div>
+
+            <div class="user-box modal">
+              <input type="text" name="" required="" id="updEmailTxt">
+              <label>Email</label>
+            </div>
+
+            <a href="#" id="closeInfoBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                CLOSE
+            </a>
+            <a href="#" id="updateInfoBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                UPDATE
+            </a>
+            </form>
+          </div>
+          <!--End of update info-->
+
+          <!--Start of update password-->
+          <div id="updatePassBox" class="hidden">
+
+            <h2 class="modalTitle">CHANGE PASSWORD</h2>
+            <form>
+                <div class="user-box modal">
+                    <input type="password" name="" required="" id="currentPasswordTxt">
+                    <label>Password</label>
+                </div>
+  
+                <div class="user-box modal">
+                    <input type="password" name="" required="" id="newPasswordTxt">
+                    <label>Confirm Password</label>
+                </div>
+
+                <div class="user-box modal">
+                    <input type="password" name="" required="" id="confirmNewPasswordTxt">
+                    <label>Confirm Password</label>
+                </div>
+            <a href="#" id="closePassBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                CLOSE
+            </a>
+            <a href="#" id="updatePassBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                UPDATE
+            </a>
+            </form>
+          </div>
+          <!--End of update password-->
+          </div>
+    </div>
     <script src="Javascripts/teacherManager.js"></script>
 </body>
 </html>

@@ -17,7 +17,17 @@
     padding: 0;
     color: #fff;
 }
-
+.modal-container {
+    background: rgba(0, 0, 0, .9);
+    border-radius: 0;
+}
+.modal {
+    width: 50vw;
+    margin: auto;
+}
+.modalTitle {
+    font-size: clamp(12px, 10vw, 60px);
+}
 .login-box .user-box {
     position: relative;
 }
