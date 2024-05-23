@@ -1,15 +1,13 @@
 .login-box {
     display: flex;
     flex-direction: column;
-    margin-left: auto; 
-    margin-right: auto; 
     min-width: 30vw;
     padding: 40px;
     background: rgba(0, 0, 0, .5);
     box-sizing: border-box;
     box-shadow: 0px 15px 25px rgba(0, 0, 0, .6);
     border-radius: 10px;
-    text-align: center; /* Center the text inside the box */
+    text-align: center; 
 }
 
 .login-box h2 {
@@ -52,11 +50,11 @@
     font-size: 16px;
     color: #fff;
     pointer-events: none;
-    transition: .5s;
+    transition: .2s;
 }
 
-.login-box .user-box input:focus ~ label,
-.login-box .user-box input:valid ~ label {
+.login-box .user-box input:not([type="checkbox"]):focus ~ label,
+.login-box .user-box input:not([type="checkbox"]):valid ~ label {
     top: -20px;
     left: 0;
     color: #03e9f4;
@@ -184,4 +182,36 @@
     50%, 100% {
         bottom: 100%;
     }
+}
+
+
+.settingBtnCon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Add space between the buttons */
+    margin-top: 20px; /* Add some space above the buttons */
+}
+.otherContainer input[type=checkbox] {
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  transform: scale(2);
+}
+
+.otherContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px; /* Add margin for spacing */
+    gap: 10px;
+}
+
+.otherContainer input[type=checkbox] {
+    transform: scale(1.5); /* Adjust the size of the checkbox */
+}
+
+.otherContainer label {
+    margin: 0;
 }

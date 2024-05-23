@@ -40,7 +40,7 @@ logoutBtn.addEventListener("click", function() {
 });
 
 createBtn.addEventListener("click", function() {
-    alert("Create not implemented");
+    window.location.href = "createQuiz.html";
 });
 
 editBtn.addEventListener("click", function() {

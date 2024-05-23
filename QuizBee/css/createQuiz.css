@@ -1,0 +1,146 @@
+/**main div**/
+.create-section {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(240, 248, 255, 0.385);
+    height: fit-content;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, .6);
+    border-radius: 10px;
+    color: rgb(27, 27, 27);
+}
+
+/**number count**/
+.numCount {
+    text-align: center;
+}
+
+.create-section h3 {
+    margin: 10px;
+    margin-left: 3%;
+}
+
+.create-form-choices {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: auto;
+    gap: 5%;
+}
+
+.create-section .header-question + input{
+    position: relative;
+    width: 90%;
+    margin: auto;
+}
+
+.input-container{
+	position:relative;
+	margin-bottom:25px;
+    flex: 1;
+}
+
+.create-section input:not([type="checkbox"]) + label{
+	position:absolute;
+	top:0px;
+	left:0px;
+	font-size:16px;
+    pointer-events: none;
+	transition: all 0.2s ease-in-out;
+}
+
+.create-section input{ 
+    border:0;
+    border-bottom:2px solid #242222;  
+    background:transparent;
+    width:100%;
+    padding:8px 0 5px 0;
+    font-size:16px;
+}
+
+.create-section input:focus{ 
+    border:none;	
+    outline:none;
+    border-bottom:1px solid #515151;	
+}
+
+.create-section input:not([type="checkbox"]):focus ~ label,
+.create-section input:not([type="checkbox"]):valid ~ label{
+	top:-12px;
+	font-size:12px;
+	
+}
+
+.customSetting {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: auto;
+}
+
+.customSetting label {
+	font-size:16px;
+    flex:0.1;
+    max-width: 50%;
+}
+.customSetting input[type="checkbox"] {
+    margin: 5px;
+    flex: 1;
+    max-width: 32px;
+}
+.customInput {
+    margin-top: 10px;
+    flex: 10;
+    color: rgb(27, 27, 27);
+    max-width: 50%;
+}
+
+.button-5 {
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #fa6400;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0;
+    margin-top: 10px;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+}
+
+.button-5:hover,
+.button-5:focus {
+    background-color: #fb8332;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.button-5:hover {
+     transform: translateY(-1px);
+}
+
+.button-5:active {
+    background-color: #c85000;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+}
