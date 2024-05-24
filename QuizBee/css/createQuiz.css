@@ -2,10 +2,10 @@
 .create-section {
     display: flex;
     flex-direction: column;
-    background-color: rgba(240, 248, 255, 0.385);
     height: fit-content;
     width: 100%;
     padding: 10px;
+    background-color: rgba(240, 248, 255, 0.385);
     border-radius: 5px;
     box-sizing: border-box;
     box-shadow: 0px 15px 25px rgba(0, 0, 0, .6);
@@ -29,7 +29,7 @@
     flex-direction: row;
     width: 90%;
     margin: auto;
-    gap: 5%;
+    gap: 3%;
 }
 
 .create-section .header-question + input{
@@ -75,6 +75,12 @@
 	
 }
 
+.create-section input[type="checkbox"] {
+    max-width: 24px;
+    margin-top: -1%;
+    margin-right: -2%;
+}
+
 .customSetting {
     display: flex;
     flex-direction: row;
@@ -90,7 +96,7 @@
 .customSetting input[type="checkbox"] {
     margin: 5px;
     flex: 1;
-    max-width: 32px;
+    max-width: 24px;
 }
 .customInput {
     margin-top: 10px;
@@ -143,4 +149,11 @@
     background-color: #c85000;
     box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
     transform: translateY(0);
+}
+
+.new-question-btn {
+    position: relative;
+    align-items: start;
+    top: 0;
+    padding: 10px;
 }

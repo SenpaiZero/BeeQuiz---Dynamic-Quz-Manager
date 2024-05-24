@@ -167,6 +167,7 @@ body, html {
     padding: 0px;
     margin: 0px;
     align-self: center;
+    color: rgb(50, 50, 50);
 }
 .teacherContainer {
     display: flex;
@@ -196,27 +197,23 @@ body, html {
     flex-direction: column;
     justify-content: center;
     cursor: pointer;
+    user-select: none;
 }
 
 .teacherColMain, .teacherRow{
     background: rgba(0, 0, 0, .5);
     align-items: center;
     margin: 5px;
+    background-color: rgba(240, 248, 255, 0.385);
     border-radius: 5px;
-    -webkit-box-shadow:  0px 0px 6px 1px #343434;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-    -moz-box-shadow:     0px 0px 6px 1px #343434;  /* Firefox 3.5 - 3.6 */
-    box-shadow:          0px 0px 6px 1px #343434;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
-    
-    border: solid 3px rgb(18, 49, 93)/* Inset box-shadow */
+    box-sizing: border-box;
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, .6);
+    border-radius: 10px;
 }
 .teacherRow:hover{
     border-width: 5px;
-    background: rgba(0, 30, 48, 0.793);
+    background-color: rgba(240, 248, 255, 0.211);
     margin: 3px;
-
-    -webkit-box-shadow:  1px 1px 10px 2px #343434;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-    -moz-box-shadow:    1px 1px 10px 2px #343434;  /* Firefox 3.5 - 3.6 */
-    box-shadow:         1px 1px 10px 2px #343434;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 .teacherCol img {
     width: 15vw/2;
@@ -242,12 +239,11 @@ body, html {
     align-self: center;
     text-align: center;
     font-size: clamp(24px, 8vw, 108px);
-    color: #102a43;
     letter-spacing: 10px;
     cursor: default;
 
     text-transform: uppercase;
-    background: linear-gradient(to right,#6bccf5 10%, #044d71 40%, #1398d1 80%);
+    background: linear-gradient(to right,#6bccf5 33%, #3a95c2 66%, #22ade8 99%);
     background-size: auto auto;
     background-clip: border-box;
     background-size: 200% auto;
@@ -308,7 +304,7 @@ body, html {
 
 .profileBtnCon div {
     flex: 1;
-    background-color: #003c4f;
+    background-color: #0d7797a9;
     align-self: flex-end;
     text-align: center;
     align-content: center;
@@ -318,11 +314,13 @@ body, html {
     font-family: fantasy;
     letter-spacing: 1px;
     font-size: clamp(12px, 10vw, 30px);
+    cursor: pointer;
+    user-select: none;
 
 }
 
 .profileBtnCon div:hover {
-    background-color: #014256;
+    background-color: #0d779756;
 }
 
 .updateModal {
