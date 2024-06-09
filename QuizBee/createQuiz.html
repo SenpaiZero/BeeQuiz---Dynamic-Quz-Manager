@@ -32,32 +32,32 @@
                     <h2 class="numCount" id="numCount">Question #1</h2>
                     <form class="createForm">
                         <div class="input-container" style="width: 90%; margin: auto;">
-                            <input type="text" required=""/>
+                            <input type="text" required="" class="question-text"/>
                             <label>What is the question?</label>		
                         </div>
                         <div>
                             <h3 class="header-choices">Choices</h3>
                             <div class="create-form-choices">
-                                <input type="checkbox" required=""/>
+                                <input type="checkbox" class="correct-choice"/>
                                 <div class="input-container">
-                                    <input type="text" required=""/>
+                                    <input type="text" required="" class="choice-text"/>
                                     <label>Choice A</label>		
                                 </div>
-                                <input type="checkbox" required=""/>
+                                <input type="checkbox" class="correct-choice"/>
                                 <div class="input-container">
-                                    <input type="text" required=""/>
+                                    <input type="text" required="" class="choice-text"/>
                                     <label>Choice B</label>		
                                 </div>
                             </div>
                             <div class="create-form-choices"> 
-                                <input type="checkbox" required=""/>
+                                <input type="checkbox" class="correct-choice"/>
                                 <div class="input-container">
-                                    <input type="text" required=""/>
+                                    <input type="text" required="" class="choice-text"/>
                                     <label>Choice C</label>		
                                 </div>
-                                <input type="checkbox" required=""/>
+                                <input type="checkbox" class="correct-choice"/>
                                 <div class="input-container">
-                                    <input type="text" required=""/>
+                                    <input type="text" required="" class="choice-text"/>
                                     <label>Choice D</label>		
                                 </div>
                             </div>
@@ -65,18 +65,16 @@
                         <div>
                             <h3>Custom Settings</h3>
                             <div class="customSetting">
-                                <input type="checkbox">
-                                
+                                <input type="checkbox" class="custom-timer"/>
                                 <div class="customInput input-container">
-                                    <input type="text" required=""/>
+                                    <input type="text" class="timer-value"/>
                                     <label>Timer</label>		
                                 </div>
                             </div>
                             <div class="customSetting">
-                                
-                                <input type="checkbox">
+                                <input type="checkbox" class="custom-score"/>
                                 <div class="customInput input-container">
-                                    <input type="text" required=""/>
+                                    <input type="text" class="score-value"/>
                                     <label>Score</label>		
                                 </div>
                             </div>
@@ -96,42 +94,42 @@
                     <h2>SETTINGS</h2>
                     <form>
                         <div class="user-box">
-                            <input type="text" name="" required="" id="usernameTxt">
+                            <input type="text" name="" required="" id="quizNameTxt">
                             <label>Name</label>
                         </div>
                         <div class="user-box">
-                            <input type="text" name="" required="" id="passwordTxt">
+                            <input type="text" name="" required="" id="quizDescTxt">
                             <label>Description</label>
                         </div>
                         <div class="user-box">
-                            <input type="text" name="" required="" id="pinTxt">
+                            <input type="text" name="" required="" id="quizCodeTxt">
                             <label>Quiz Code</label>
                         </div>
                         <div class="user-box">
-                            <input type="text" name="" required="" id="passwordTxt">
+                            <input type="text" name="" required="" id="defaultScoreTxt">
                             <label>Default Score</label>
                         </div>
                         <div class="user-box">
-                            <input type="text" name="" required="" id="passwordTxt">
+                            <input type="text" name="" required="" id="defaultTimerTxt">
                             <label>Default Timer</label>
                         </div>
                         <div class="otherContainer">
                             <label>Require password: </label>
-                            <input type="checkbox" name="" required="" id="requirePassCB">
+                            <input type="checkbox" name="" id="requirePassCB">
                         </div>
                         <div class="user-box">
-                            <input type="password" name="" required="" id="passwordTxt">
+                            <input type="password" name="" required="" id="quizPasswordTxt">
                             <label>Password</label>
                         </div>
                         <div class="settingBtnCon">
-                            <a href="#" id="loginBtn">
+                            <a href="#" id="createQuizBtn">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                                 <span></span>
                                 CREATE
                             </a>
-                            <a href="teacher.html" id="loginBtn">
+                            <a href="teacher.html" id="cancelBtn">
                                 <span></span>
                                 <span></span>
                                 <span></span>
@@ -145,6 +143,6 @@
         </div>
     </div>
 
-   <script src="Javascripts/createQuiz.js"></script>
-   </body>
+   <script type="module" src="Javascripts/createQuiz.js"></script>
+</body>
 </html>
