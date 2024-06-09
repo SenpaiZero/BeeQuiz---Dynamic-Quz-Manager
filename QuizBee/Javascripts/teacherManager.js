@@ -16,6 +16,10 @@ const closePassBtn = document.getElementById("closePassBtn");
 const changePassContainer = document.getElementById("updatePassBox");
 const showChangePassBtn = document.getElementById("changePasswordBtn");
 
+const logoutCon = document.getElementById("logoutCon");
+const yesLogoutBtn = document.getElementById("yesLogout");
+const noLogoutBtn = document.getElementById("noLogout");
+
 showChangePassBtn.addEventListener("click", function() {
     updateContainer.classList.remove('hidden');
     changePassContainer.classList.remove('hidden');
@@ -36,7 +40,7 @@ closeInfoBtn.addEventListener("click", function() {
     infoContainer.classList.add('hidden');
 });
 logoutBtn.addEventListener("click", function() {
-    window.location.href = "index.html";
+    logoutCon.classList.toggle("invisible");
 });
 
 createBtn.addEventListener("click", function() {
@@ -49,4 +53,12 @@ editBtn.addEventListener("click", function() {
 
 viewBtn.addEventListener("click", function() {
     alert("view not implemented");
+});
+
+noLogoutBtn.addEventListener("click", function() {
+    logoutCon.classList.toggle("invisible");
+});
+
+yesLogoutBtn.addEventListener("click", function() {
+    window.location.href = "index.html";
 });

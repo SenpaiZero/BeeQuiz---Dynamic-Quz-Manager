@@ -191,12 +191,17 @@ body, html {
     height: 80vh;
     flex-wrap: wrap;
     justify-content: center;
+    color: rgb(191, 244, 255);
+    letter-spacing: 1px;
+    cursor: default;
+    user-select: none;
 }
 
 .teacherColMain {
     display: flex;
     flex-direction: column;
     flex: 2;
+    padding: 5px;
 }
 
 .teacherCol {
@@ -267,6 +272,8 @@ body, html {
     -webkit-text-fill-color: transparent;
     animation: textclip 5s linear infinite;
     display: inline-block;
+    cursor: default;
+    user-select: none;
 }
 
 
@@ -277,6 +284,7 @@ body, html {
         flex: none;
     }
 }
+
 @keyframes textclip {
     to {
       background-position: 200% center;
@@ -284,53 +292,66 @@ body, html {
 }
 
 .profileInfoCon {
-    margin: 5%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
+    height: 53.5vh;
+}
+
+.profileInfoCon div {
+    flex: 1;
+    height: 25vh;
 }
 
 .profileRow {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     word-wrap: break-word;
+    word-break: break-all;
     justify-content: center;
-    margin-bottom: 1%;
-
+    text-align: center;
+    background-color: #0d7797a9;
+    margin: 3px;
+    border-radius: 5px;
+    padding: 5px;
+    
 }
 .profileRow h2 {
-    width: 40%;
-    font-size: 24px;
+    font-size: 34px;
     font-weight: bolder;
+    font-family: fantasy;
 }
 
 .profileRow span {
-    width: 50%;
     font-size: 24px;
+    letter-spacing: 0px;
+    cursor: text;
+    user-select: text;
 }
 
 .profileBtnCon {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    height: 100%;
+    height: 20%;
     width: 100%;
 }
 
 .profileBtnCon div {
     flex: 1;
-    background-color: #0d7797a9;
+    background-color: #0b5e77d0;
     align-self: flex-end;
     text-align: center;
     align-content: center;
-    margin: 1%;
+    margin: 0.5%;
     padding: 2%;
     border-radius: 3px;
     font-family: fantasy;
     letter-spacing: 1px;
-    font-size: clamp(12px, 10vw, 30px);
+    font-size: clamp(12px, 5vh, 30px);
     cursor: pointer;
     user-select: none;
+    height: 10vh;
 
 }
 
@@ -345,6 +366,59 @@ body, html {
     width: 100vw;
     height: 100vh;
     z-index: 2;
+}
+
+.logoutCon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000068;
+}
+
+.logout {
+    position: absolute;
+    top: 0;
+    transform: translate(50%, 50%);
+    background: rgb(0,213,241);
+    width: 50vw;
+    height: 50vh;
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+    overflow: scroll;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+
+.logout h1 {
+    font-size: clamp(12px, 4vw + 5vh, 64px);
+    font-family: fantasy;
+    margin-top: 15%;
+}
+
+.logout div button {
+    padding: 10px;
+    font-family: fantasy;
+    font-size: 24px;
+    width: 40%;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    border: none;
+    color: white;
+    margin-top: 3%;
+}
+
+.logout div button:hover {
+    color: #052b;
+    background-color: rgb(91, 169, 205) !important;
+}
+.logout div button:first-child {
+    background-color: rgb(255, 91, 91);
+}
+
+.logout div button:last-child {
+    background-color: rgb(37, 147, 37);
 }
 
 /* Creating quiz */
@@ -381,6 +455,7 @@ body, html {
     display: flex;
     position: relative;
 }
+
 
 /* Responsive adjustments */
 @media only screen and (max-width: 1000px) {
@@ -856,5 +931,71 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
 
     .quiz-list-container {
         flex-direction: column;
+    }
+
+    .quiz-list-db-button {
+        margin: 2% 1vh 0 5%;
+    }
+}
+
+.invisible {
+    display: none !important;
+}
+
+.message-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000ac;
+    position: absolute;
+    top: 0;
+    left: 0;
+    align-items: center;
+    align-content: center;
+    z-index: 9999;
+}
+
+.message-container div {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 50%;
+    background-color: #00d5f1;
+    margin: auto;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, .6);
+}
+
+.message-container div * {
+    margin: auto;
+    font-family: fantasy;
+    font-size: clamp(12px, 2vw + 3vh, 34px);
+}
+
+.message-container div button {
+    width: 50%;
+    height: auto;
+    padding: 3%;
+    border-radius: 4px;
+    background-color: #04da97;
+    border: none;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, .6);
+    cursor: pointer;
+}
+
+.message-container div button:hover {
+    background-color: #147d5c;
+}
+
+.message-container div span {
+    text-align: center;
+}
+
+
+@media only screen and (max-width: 900px) {
+    .message-container div{
+        width: 75%;
     }
 }

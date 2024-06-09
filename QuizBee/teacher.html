@@ -32,24 +32,26 @@
             </h1>
 
             <div class="profileInfoCon">
-                <div class="profileRow">
-                    <h2>ACCOUNT ID</h2>
-                    <span id="accountID"></span>
+                <div>
+                    <div class="profileRow">
+                        <h2>ACCOUNT ID</h2>
+                        <span id="accountID"></span>
+                    </div>
+                    <div class="profileRow">
+                        <h2>FULL NAME</h2>
+                        <span id="fullName"></span>
+                    </div>
                 </div>
-                <div class="profileRow">
-                    <h2>FULL NAME</h2>
-                    <span id="fullName"></span>
+                <div>
+                    <div class="profileRow">
+                        <h2>USERNAME</h2>
+                        <span id="username"></span>
+                    </div>
+                    <div class="profileRow">
+                        <h2>EMAIL ADDRESS</h2>
+                        <span id="email"></span>
+                    </div>
                 </div>
-                <div class="profileRow">
-                    <h2>USERNAME</h2>
-                    <span id="username"></span>
-                </div>
-                <div class="profileRow">
-                    <h2>EMAIL ADDRESS</h2>
-                    <span id="email"></span>
-                </div>
-                
-                
             </div>
             <div class="profileBtnCon">
                 <div id="changePasswordBtn">CHANGE PASSWORD</div>
@@ -65,14 +67,14 @@
             <!-- Edit -->
             <div class="teacherRow" id="teacherView">
                 <img src="Icons/view.png">
-                <h1>EDIT</h1>
+                <h1>LEADERBOARD</h1>
             </div>
         </div>
-        <div class="teacherCol" id="teacherEdit">
+        <div class="teacherCol">
             <!-- View -->
-            <div class="teacherRow">
+            <div class="teacherRow" id="teacherEdit">
                 <img src="Icons/edit.png">
-                <h1>VIEW</h1>
+                <h1>QUIZ LIST</h1>
             </div>
             <!-- Logout -->
             <div class="teacherRow" id="teacherLogout">
@@ -160,9 +162,28 @@
           <!--End of update password-->
           </div>
     </div>
+
+    <div class="logoutCon invisible" id="logoutCon">
+        <div class="logout">
+            <h1>DO YOU WANT TO LOGOUT?</h1>
+            <div>
+                <button id="noLogout">NO</button>
+                <button id="yesLogout">YES</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-container invisible" id="messageCon">
+        <div>
+            <span id="textMessage"></span>
+            <button id="closeMessage">CLOSE</button>
+        </div>
+    </div>
     <script src="Javascripts/teacherManager.js"></script>
     <script type="module" src="Javascripts/firebase.js"></script>
     <script type="module" src="Javascripts/userProfile.js"></script>
     <script type="module" src="Javascripts/updateUserProf.js"></script>
+    <script type="module" src="Javascripts/validation.js"></script>
+    <script type="module" src="Javascripts/dialogueBox.js"></script>
 </body>
 </html>
