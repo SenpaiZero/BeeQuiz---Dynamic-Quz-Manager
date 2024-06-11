@@ -1,4 +1,4 @@
-import { auth, db, collection, setDoc, getDocs, doc, addDoc, serverTimestamp } from "./firebase.js";
+import { auth, db, collection, setDoc, getDocs, doc, addDoc, serverTimestamp, getDoc } from "./firebase.js";
 
 const newQuizBtn = document.getElementById("newQuizBtn");
 const questionContainer = document.getElementById("questionContainer");
@@ -113,6 +113,25 @@ createQuizBtn.addEventListener("click", async function() {
         const defaultTimer = document.getElementById("defaultTimerTxt").value;
         const requirePassword = document.getElementById("requirePassCB").checked;
         const quizPassword = document.getElementById("quizPasswordTxt").value;
+
+        // Validate required fields
+        if (!quizName || !quizDesc || !quizCode || !defaultScore || !defaultTimer) {
+            alert("Please fill out all required fields.");
+            return;
+        }
+        //If requiredPassword is checked, Password field required to fill
+        if (requirePassword && !quizPassword) {
+            alert("Please enter a password since the require password option is selected.");
+            return;
+        }
+
+        //Check first if a quiz with the same name already exists
+        const existingQuizRef = doc(db, `users/${user.uid}/quizTables/${quizTableId}/quizzes/${quizName}`);
+        const existingQuizSnapshot =await getDoc(existingQuizRef);
+        if(existingQuizSnapshot.exists()){
+            alert("A quiz with this name already exists. Please choose a different quiz name");
+            return;
+        }
         
         // Collect quiz data from the form
         const quizData = [];
@@ -125,11 +144,30 @@ createQuizBtn.addEventListener("click", async function() {
                 const choiceIndex = Array.from(form.querySelectorAll(".correct-choice")).indexOf(checkbox);
                 return choiceIndex;
             }).filter(index => index !== -1);
+
+            //Enable or disable the custom settings input fields based on checkBox status (checked or not)
+            const customTimerChecked = form.querySelector(".custom-timer").checked;
+            const customScoreChecked = form.querySelector(".custom-score").checked;
+            const timerValue = form.querySelector(".timer-value").value;
+            const scoreValue = form.querySelector(".score-value").value;
+      
+            // Validate custom settings
+            if (customTimerChecked && !timerValue) {
+                alert("Please fill in the custom timer value.");
+                return;
+            }
+
+            if (customScoreChecked && !scoreValue) {
+                alert("Please fill in the custom score value.");
+                return;
+            }
             
             quizData.push({
                 questionText: questionText,
                 choices: choices,
-                correctChoices: correctChoiceIndices
+                correctChoices: correctChoiceIndices,
+                customTimer: customTimerChecked ? timerValue : null,
+                customScore: customScoreChecked ? scoreValue : null
             });
         });
         
@@ -146,19 +184,23 @@ createQuizBtn.addEventListener("click", async function() {
             createdAt: serverTimestamp(),
             userId: user.uid
         });
-        
+
         // Reference to the specific quiz inside the quizzes collection, named by quizName
         const quizRef = doc(db, `users/${user.uid}/quizTables/${quizTableId}/quizzes/${quizName}`);
-        
+
+        // Save the quiz document
+        await setDoc(quizRef, {}); 
+
         // Save each quiz question as a document within the questions sub-collection
         const questionsRef = collection(quizRef, "questions");
         await Promise.all(quizData.map(async (question) => {
             await addDoc(questionsRef, question);
         }));
-        
+
         alert("Quiz saved successfully!");
-        // After successfully saving the quiz, redirect to the quiz display page
-        window.location.href = "quiz.html";
+        // After successfully saving the quiz, redirect to the quizList display page
+        window.location.href = "quizList.html";
+
     } catch (error) {
         console.error("Error saving quiz: ", error);
         alert("Failed to save quiz. Please try again.");

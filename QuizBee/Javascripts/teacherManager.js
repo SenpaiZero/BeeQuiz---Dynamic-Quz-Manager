@@ -1,6 +1,6 @@
 const createBtn = document.getElementById("teacherCreate");
-const viewBtn = document.getElementById("teacherView");
-const editBtn = document.getElementById("teacherEdit");
+const leaderboardBtn = document.getElementById("teacherLeaderboard");
+const listBtn = document.getElementById("teacherList");
 const logoutBtn = document.getElementById("teacherLogout");
 const updateContainer = document.getElementById("updateContainer");
 
@@ -47,12 +47,12 @@ createBtn.addEventListener("click", function() {
     window.location.href = "createQuiz.html";
 });
 
-editBtn.addEventListener("click", function() {
-    alert("Edit not implement");
+listBtn.addEventListener("click", function() {
+    window.location.href = "quizList.html";
 });
 
-viewBtn.addEventListener("click", function() {
-    alert("view not implemented");
+leaderboardBtn.addEventListener("click", function() {
+    window.location.href = "quizList-leaderboard.html";
 });
 
 noLogoutBtn.addEventListener("click", function() {
