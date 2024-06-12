@@ -1025,6 +1025,7 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     align-items: center;
     align-content: center;
     z-index: 9999;
+    color: #a6edf7;
 }
 
 .message-container div {
@@ -1032,14 +1033,26 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     flex-direction: column;
     width: 50%;
     height: 50%;
-    background-color: #00d5f1;
+    background-color: #383838;
     margin: auto;
     align-items: center;
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0px 15px 25px rgba(0, 0, 0, .6);
+    padding: 15px;
 }
 
+.message-warning {
+    background-color: #c59421 !important;
+}
+
+.message-success {
+    background-color: #21c55b !important;
+}
+
+.message-error {
+    background-color: #d4320e !important;
+}
 .message-container div * {
     margin: auto;
     font-family: fantasy;

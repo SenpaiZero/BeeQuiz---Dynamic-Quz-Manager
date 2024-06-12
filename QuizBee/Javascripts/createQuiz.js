@@ -1,5 +1,5 @@
 import { auth, db, collection, setDoc, getDocs, doc, addDoc, serverTimestamp, getDoc } from "./firebase.js";
-import { showMessage, showMessage_redirect } from "./dialogueBox.js";
+import { showMessage, showMessage_color, showMessage_redirect, showMessage_redirect_color } from "./dialogueBox.js";
 import { isNumberOnly } from "./validation.js";
 
 const newQuizBtn = document.getElementById("newQuizBtn");
@@ -126,7 +126,7 @@ createQuizBtn.addEventListener("click", async function() {
         // Get the user ID
         const user = auth.currentUser;
         if (!user) {
-            showMessage("You need to be logged in to create a quiz.");
+            showMessage_color("You need to be logged in to create a quiz.", "error");
             return;
         }
         
@@ -139,7 +139,7 @@ createQuizBtn.addEventListener("click", async function() {
         
         // Check if quizTableId is defined
         if (!quizTableId) {
-            showMessage("No quiz table found for the current user.");
+            showMessage_color("No quiz table found for the current user.", "error");
             return;
         }
         
@@ -154,44 +154,44 @@ createQuizBtn.addEventListener("click", async function() {
 
         // Validate required fields
         if(!quizName) {
-            showMessage("Quiz Name field are empty. Please fill it up.");
+            showMessage_color("Quiz Name field are empty. Please fill it up.", "warning");
             return;
         }
-        if(!quizName) {
-            showMessage("Quiz Description field is empty. Please fill it up.");
+        if(!quizDesc) {
+            showMessage_color("Quiz Description field is empty. Please fill it up.", "warning");
             return;
         }
         if(!quizCode) {
-            showMessage("Quiz Code field is empty. Please fill it up.");
+            showMessage_color("Quiz Code field is empty. Please fill it up.", "warning");
             return;
         }
         if(!defaultScore) {
-            showMessage("Default Score field is empty. Please fill it up.");
+            showMessage_color("Default Score field is empty. Please fill it up.", "warning");
             return;
         }
         if(!isNumberOnly(defaultScore)) {
-            showMessage("Only numbers are allowed in Default Score.");
+            showMessage_color("Only numbers are allowed in Default Score.", "warning");
             return;
         }
         if(!defaultTimer) {
-            showMessage("Default Timer field is empty. Please fill it up.");
+            showMessage_color("Default Timer field is empty. Please fill it up.", "warning");
             return;
         }
         if(!isNumberOnly(defaultTimer)) {
-            showMessage("Only numbers are allowed in Default Timer.");
+            showMessage_color("Only numbers are allowed in Default Timer.", "warning");
             return;
         }
-        //If requiredPassword is checked, Password field required to fill
+        // If requiredPassword is checked, Password field required to fill
         if (requirePassword && !quizPassword) {
-            showMessage("Password field is empty. Please fill it up.");
+            showMessage_color("Password field is empty. Please fill it up.", "warning");
             return;
-        }
+        }        
 
         //Check first if a quiz with the same name already exists
         const existingQuizRef = doc(db, `users/${user.uid}/quizTables/${quizTableId}/quizzes/${quizName}`);
         const existingQuizSnapshot =await getDoc(existingQuizRef);
         if(existingQuizSnapshot.exists()){
-            showMessage("A quiz with this name already exists. Please choose a different quiz name");
+            showMessage_color("A quiz with this name already exists. Please choose a different quiz name", "error");
             return;
         }
         
@@ -212,17 +212,17 @@ createQuizBtn.addEventListener("click", async function() {
 
             // Validate question and choices
             if (!questionText) {
-                showMessage("A question field is empty. Please fill it up.");
+                showMessage_color("A question field is empty. Please fill it up.", "warning");
                 hasError = true;
                 return;
             }
             if (choices.some(choice => !choice)) {
-                showMessage("One or more answer fields are empty. Please fill them up.");
+                showMessage_color("One or more answer fields are empty. Please fill them up.", "warning");
                 hasError = true;
                 return;
             }
             if (correctChoiceIndices.length === 0) {
-                showMessage("No correct answer is selected. Please select at least one correct answer.");
+                showMessage_color("No correct answer is selected. Please select at least one correct answer.", "warning");
                 hasError = true;
                 return;
             }
@@ -235,24 +235,24 @@ createQuizBtn.addEventListener("click", async function() {
       
             // Validate custom settings
             if (customTimerChecked && !timerValue) {
-                showMessage("Please fill in the custom timer value.");
+                showMessage_color("Please fill in the custom timer value.", "warning");
                 hasError = true;
                 return;
             }
 
             if (customScoreChecked && !scoreValue) {
-                showMessage("Please fill in the custom score value.");
+                showMessage_color("Please fill in the custom score value.", "warning");
                 hasError = true;
                 return;
             }
 
-            if(customScoreChecked && !isNumberOnly(scoreValue)) {
-                showMessage("Only number are allowed in score");
+            if (customScoreChecked && !isNumberOnly(scoreValue)) {
+                showMessage_color("Only numbers are allowed in custom score.", "warning");
                 hasError = true;
                 return;
             }
-            if(customTimerChecked && !isNumberOnly(timerValue)) {
-                showMessage("Only number are allowed in timer.");
+            if (customTimerChecked && !isNumberOnly(timerValue)) {
+                showMessage_color("Only numbers are allowed in custom timer.", "warning");
                 hasError = true;
                 return;
             }
@@ -294,11 +294,11 @@ createQuizBtn.addEventListener("click", async function() {
             await addDoc(questionsRef, question);
         }));
 
-        showMessage_redirect("Quiz saved successfully!", "quizList.html");
+        showMessage_redirect_color("Quiz saved successfully!", "quizList.html", "success");
 
     } catch (error) {
         console.error("Error saving quiz: ", error);
-        showMessage("Failed to save quiz. Please try again.");
+        showMessage_color("Failed to save quiz. Please try again.", "error");
     }
 });
 
