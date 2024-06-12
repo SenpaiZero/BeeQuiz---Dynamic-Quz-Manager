@@ -16,7 +16,7 @@
         <div class="create-main-main-container">
             <div class="create-main-container" id="questionContainer">
                 
-                <!-- Start of question -->
+                <!--| TEMPLATE FOR THE JAVASCRIPT | (REMOVE COMMENT IF DEBUGGIN) Start of question
                 <div class="create-container">
                     <div class="create-section">
                         <h2 class="numCount" id="numCount">Question #1</h2>
@@ -72,7 +72,7 @@
                         </form>
                     </div>
                 </div>
-            <!-- End of question -->
+            | TEMPLATE FOR THE JAVASCRIPT | (REMOVE COMMENT IF DEBUGGIN) End of question -->
             <button class="new-question-btn button-5" id="newQuizBtn">Add new question</button>
 
         </div>
@@ -92,7 +92,7 @@
                             <label>Description</label>
                         </div>
                         <div class="user-box">
-                            <input type="text" name="" required="" id="quizCodeTxt">
+                            <input type="text" name="" required="" id="quizCodeTxt" style="pointer-events: none;">
                             <label>Quiz Code</label>
                         </div>
                         <div class="user-box">
@@ -108,7 +108,7 @@
                             <input type="checkbox" name="" id="requirePassCB">
                         </div>
                         <div class="user-box">
-                            <input type="password" name="" required="" id="quizPasswordTxt">
+                            <input type="password" name="" required="" id="quizPasswordTxt" disabled>
                             <label>Password</label>
                         </div>
                         <div class="settingBtnCon">
@@ -133,6 +133,14 @@
         </div>
     </div>
 
+    <div class="message-container invisible" id="messageCon">
+        <div>
+            <span id="textMessage"></span>
+            <button id="closeMessage">CLOSE</button>
+        </div>
+    </div>
    <script type="module" src="Javascripts/createQuiz.js"></script>
+   <script type="module" src="Javascripts/validation.js"></script>
+   <script type="module" src="Javascripts/dialogueBox.js"></script>
 </body>
 </html>

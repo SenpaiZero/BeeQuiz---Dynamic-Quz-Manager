@@ -1,10 +1,26 @@
 import { auth, db, collection, setDoc, getDocs, doc, addDoc, serverTimestamp, getDoc } from "./firebase.js";
+import { showMessage, showMessage_redirect } from "./dialogueBox.js";
+import { isNumberOnly } from "./validation.js";
 
 const newQuizBtn = document.getElementById("newQuizBtn");
 const questionContainer = document.getElementById("questionContainer");
-let questionCount = 2;
+const passCB = document.getElementById("requirePassCB");
+let questionCount = 1;
+
+document.addEventListener("DOMContentLoaded", function() {
+    addNewQuestion();
+    document.getElementById("quizCodeTxt").value = generateCode();
+});
 
 newQuizBtn.addEventListener("click", function () {
+    addNewQuestion();
+});
+
+function generateCode() {
+    return Math.floor(100000 + Math.random() * 900000);
+}
+
+function addNewQuestion() {
     const newQuestion = document.createElement("div");
     newQuestion.classList.add("create-container");
     newQuestion.innerHTML = `
@@ -47,14 +63,14 @@ newQuizBtn.addEventListener("click", function () {
                     <div class="customSetting">
                         <input type="checkbox" class="custom-timer"/>
                         <div class="customInput input-container">
-                            <input type="text" class="timer-value"/>
+                            <input type="text" class="timer-value" disabled/>
                             <label>Timer</label>
                         </div>
                     </div>
                     <div class="customSetting">
                         <input type="checkbox" class="custom-score"/>
                         <div class="customInput input-container">
-                            <input type="text" class="score-value"/>
+                            <input type="text" class="score-value" disabled/>
                             <label>Score</label>
                         </div>
                     </div>
@@ -67,12 +83,34 @@ newQuizBtn.addEventListener("click", function () {
     questionCount++;
 
     const removeBtn = newQuestion.querySelector(".remove-btn");
+    const timerCB = newQuestion.querySelector(".custom-timer");
+    const scoreCB = newQuestion.querySelector(".custom-score");
+    const timerTB = newQuestion.querySelector(".timer-value");
+    const scoreTB = newQuestion.querySelector(".score-value");
     removeBtn.addEventListener("click", function () {
         newQuestion.remove();
         updateQuestionNumbers();
         questionCount--;
     });
-});
+
+    scoreCB.addEventListener("click", function() {
+        if(scoreCB.checked) {
+            scoreTB.disabled = false;
+        } else {
+            scoreTB.value = "";
+            scoreTB.disabled = true;
+        }
+    });
+
+    timerCB.addEventListener("click", function() {
+        if(timerCB.checked) {
+            timerTB.disabled = false;
+        } else {
+            timerTB.value = "";
+            timerTB.disabled = true;
+        }
+    });
+}
 
 function updateQuestionNumbers() {
     const questions = document.querySelectorAll(".create-container .numCount");
@@ -88,7 +126,7 @@ createQuizBtn.addEventListener("click", async function() {
         // Get the user ID
         const user = auth.currentUser;
         if (!user) {
-            alert("You need to be logged in to create a quiz.");
+            showMessage("You need to be logged in to create a quiz.");
             return;
         }
         
@@ -101,7 +139,7 @@ createQuizBtn.addEventListener("click", async function() {
         
         // Check if quizTableId is defined
         if (!quizTableId) {
-            alert("No quiz table found for the current user.");
+            showMessage("No quiz table found for the current user.");
             return;
         }
         
@@ -115,13 +153,37 @@ createQuizBtn.addEventListener("click", async function() {
         const quizPassword = document.getElementById("quizPasswordTxt").value;
 
         // Validate required fields
-        if (!quizName || !quizDesc || !quizCode || !defaultScore || !defaultTimer) {
-            alert("Please fill out all required fields.");
+        if(!quizName) {
+            showMessage("Quiz Name field are empty. Please fill it up.");
+            return;
+        }
+        if(!quizName) {
+            showMessage("Quiz Description field is empty. Please fill it up.");
+            return;
+        }
+        if(!quizCode) {
+            showMessage("Quiz Code field is empty. Please fill it up.");
+            return;
+        }
+        if(!defaultScore) {
+            showMessage("Default Score field is empty. Please fill it up.");
+            return;
+        }
+        if(!isNumberOnly(defaultScore)) {
+            showMessage("Only numbers are allowed in Default Score.");
+            return;
+        }
+        if(!defaultTimer) {
+            showMessage("Default Timer field is empty. Please fill it up.");
+            return;
+        }
+        if(!isNumberOnly(defaultTimer)) {
+            showMessage("Only numbers are allowed in Default Timer.");
             return;
         }
         //If requiredPassword is checked, Password field required to fill
         if (requirePassword && !quizPassword) {
-            alert("Please enter a password since the require password option is selected.");
+            showMessage("Password field is empty. Please fill it up.");
             return;
         }
 
@@ -129,14 +191,17 @@ createQuizBtn.addEventListener("click", async function() {
         const existingQuizRef = doc(db, `users/${user.uid}/quizTables/${quizTableId}/quizzes/${quizName}`);
         const existingQuizSnapshot =await getDoc(existingQuizRef);
         if(existingQuizSnapshot.exists()){
-            alert("A quiz with this name already exists. Please choose a different quiz name");
+            showMessage("A quiz with this name already exists. Please choose a different quiz name");
             return;
         }
         
         // Collect quiz data from the form
+        let hasError = false;
         const quizData = [];
         const questionForms = document.querySelectorAll(".createForm");
         questionForms.forEach(form => {
+            if(hasError) return;
+
             const questionText = form.querySelector(".question-text").value;
             const choices = Array.from(form.querySelectorAll(".choice-text")).map(choice => choice.value);
             const correctChoiceCheckboxes = form.querySelectorAll(".correct-choice:checked");
@@ -144,6 +209,23 @@ createQuizBtn.addEventListener("click", async function() {
                 const choiceIndex = Array.from(form.querySelectorAll(".correct-choice")).indexOf(checkbox);
                 return choiceIndex;
             }).filter(index => index !== -1);
+
+            // Validate question and choices
+            if (!questionText) {
+                showMessage("A question field is empty. Please fill it up.");
+                hasError = true;
+                return;
+            }
+            if (choices.some(choice => !choice)) {
+                showMessage("One or more answer fields are empty. Please fill them up.");
+                hasError = true;
+                return;
+            }
+            if (correctChoiceIndices.length === 0) {
+                showMessage("No correct answer is selected. Please select at least one correct answer.");
+                hasError = true;
+                return;
+            }
 
             //Enable or disable the custom settings input fields based on checkBox status (checked or not)
             const customTimerChecked = form.querySelector(".custom-timer").checked;
@@ -153,15 +235,28 @@ createQuizBtn.addEventListener("click", async function() {
       
             // Validate custom settings
             if (customTimerChecked && !timerValue) {
-                alert("Please fill in the custom timer value.");
+                showMessage("Please fill in the custom timer value.");
+                hasError = true;
                 return;
             }
 
             if (customScoreChecked && !scoreValue) {
-                alert("Please fill in the custom score value.");
+                showMessage("Please fill in the custom score value.");
+                hasError = true;
                 return;
             }
-            
+
+            if(customScoreChecked && !isNumberOnly(scoreValue)) {
+                showMessage("Only number are allowed in score");
+                hasError = true;
+                return;
+            }
+            if(customTimerChecked && !isNumberOnly(timerValue)) {
+                showMessage("Only number are allowed in timer.");
+                hasError = true;
+                return;
+            }
+
             quizData.push({
                 questionText: questionText,
                 choices: choices,
@@ -170,6 +265,8 @@ createQuizBtn.addEventListener("click", async function() {
                 customScore: customScoreChecked ? scoreValue : null
             });
         });
+
+        if (hasError) return;
         
         // Save quiz settings within the specific quiz document in the settings sub-collection
         const settingsRef = doc(db, `users/${user.uid}/quizTables/${quizTableId}/settings/${quizName}`);
@@ -197,12 +294,21 @@ createQuizBtn.addEventListener("click", async function() {
             await addDoc(questionsRef, question);
         }));
 
-        alert("Quiz saved successfully!");
-        // After successfully saving the quiz, redirect to the quizList display page
-        window.location.href = "quizList.html";
+        showMessage_redirect("Quiz saved successfully!", "quizList.html");
 
     } catch (error) {
         console.error("Error saving quiz: ", error);
-        alert("Failed to save quiz. Please try again.");
+        showMessage("Failed to save quiz. Please try again.");
     }
 });
+
+passCB.addEventListener("click", function() {
+    const passTB = document.getElementById("quizPasswordTxt");
+    if(passCB.checked) {
+        passTB.disabled = false;
+    }
+    else {
+        passTB.value = "";
+        passTB.disabled = true;
+    }
+})
