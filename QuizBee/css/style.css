@@ -191,11 +191,6 @@ body, html {
     text-align: center;
     margin-bottom: 10px;
 }
-@media only screen and (max-width: 800px) {
-    .tutorialContainer > div {
-        width: 90%;
-    }
-}
 .teacherBody {
     background-color: #3083d1;
     z-index: -1;
@@ -294,21 +289,6 @@ body, html {
     display: inline-block;
     cursor: default;
     user-select: none;
-}
-
-
-
-@media only screen and (max-width: 1000px) {
-    .teacherColMain {
-        width: 90%;
-        flex: none;
-    }
-}
-
-@keyframes textclip {
-    to {
-      background-position: 200% center;
-    }
 }
 
 .profileInfoCon {
@@ -412,9 +392,9 @@ body, html {
 }
 
 .logout h1 {
-    font-size: clamp(12px, 4vw + 5vh, 64px);
+    font-size: clamp(12px, 3vw + 4vh, 64px);
     font-family: fantasy;
-    margin-top: 15%;
+    margin-top: 10%;
 }
 
 .logout div button {
@@ -476,21 +456,6 @@ body, html {
     position: relative;
 }
 
-
-/* Responsive adjustments */
-@media only screen and (max-width: 1000px) {
-    .create-main-container {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .create-setting,
-    .create-container {
-        width: 100%;
-        margin-top: 20px; 
-        position: relative;
-    }
-}
 
 .quiz-container {
     display: flex;
@@ -599,14 +564,6 @@ body, html {
 }
 
 
-@media only screen and (max-width: 800px) {
-    .quiz-answer-container, .quiz-question-container {
-        height: auto;
-    }
-    .quiz-answer {
-        width: 100%;
-    }
-}
 .leaderboard-title {
     height: 10vh;
     font-family: fantasy;
@@ -737,24 +694,6 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     flex: 1; 
     text-align: center; 
     padding-left: 20px; 
-}
-
-@media only screen and (max-width: 900px) {
-    .leaderboard-list {
-        flex: none;
-        margin-top: 2vw;
-        height: 100vh;
-    }
-
-    .leaderboard-num1-2-3 {
-        flex: none;
-        width: 100%;
-    }
-
-    .leaderboard-panel {
-        flex-flow: column;
-    }
-
 }
 
 .flat-bg {
@@ -979,6 +918,16 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     border: none;
     color: #0c0c0c;
 }
+
+.quiz-list-view-custom {
+    padding: 5px;
+    width: 30%;
+    font-family: fantasy;
+    border-radius: 2px;
+    border: none;
+    color: #0c0c0c;  
+    background-color: rgb(132, 173, 243);
+}
 .quiz-list-nested div:nth-child(4) button:hover {
     background-color: #006e7a !important;
 }
@@ -994,21 +943,6 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     background-color: rgb(132, 173, 243);
 }
 
-
-@media only screen and (max-width: 900px) {
-    .quiz-list-db-container, .quiz-list-list {
-        flex: none;
-        width: 90%;
-    }
-
-    .quiz-list-container {
-        flex-direction: column;
-    }
-
-    .quiz-list-db-button {
-        margin: 2% 1vh 0 5%;
-    }
-}
 
 .invisible {
     display: none !important;
@@ -1079,11 +1013,6 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
 }
 
 
-@media only screen and (max-width: 900px) {
-    .message-container div{
-        width: 75%;
-    }
-}
 
 .waiting-container {
     display: grid;
@@ -1106,6 +1035,7 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     justify-content: center;
     align-items: center;
     margin: auto; 
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.495);
   }
   
   .sketch-box1{
@@ -1159,6 +1089,7 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     align-items: center;
     align-content: center;
     justify-content: center;
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, .6);
 }
 
 .waiting-btn-container button{
@@ -1169,6 +1100,11 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     color: #000;
     font-family: fantasy;
     font-size: 24px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.waiting-btn-container button:hover {
+    background-color: #006e7a;
 }
 
 @media (max-width: 768px) {
@@ -1187,5 +1123,91 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
 
     .waiting-name-quiz span {
         width: 100% !important;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .tutorialContainer > div {
+        width: 90%;
+    }
+}
+
+
+@media only screen and (max-width: 1000px) {
+    .teacherColMain {
+        width: 90%;
+        flex: none;
+    }
+}
+
+@keyframes textclip {
+    to {
+      background-position: 200% center;
+    }
+}
+
+
+/* Responsive adjustments */
+@media only screen and (max-width: 1000px) {
+    .create-main-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .create-setting,
+    .create-container {
+        width: 100%;
+        margin-top: 20px; 
+        position: relative;
+    }
+}
+
+
+@media only screen and (max-width: 800px) {
+    .quiz-answer-container, .quiz-question-container {
+        height: auto;
+    }
+    .quiz-answer {
+        width: 100%;
+    }
+}
+
+
+@media only screen and (max-width: 900px) {
+    .leaderboard-list {
+        flex: none;
+        margin-top: 2vw;
+        height: 100vh;
+    }
+
+    .leaderboard-num1-2-3 {
+        flex: none;
+        width: 100%;
+    }
+
+    .leaderboard-panel {
+        flex-flow: column;
+    }
+
+}
+
+@media only screen and (max-width: 900px) {
+    .quiz-list-db-container, .quiz-list-list {
+        flex: none;
+        width: 90%;
+    }
+
+    .quiz-list-container {
+        flex-direction: column;
+    }
+
+    .quiz-list-db-button {
+        margin: 2% 1vh 0 5%;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .message-container div{
+        width: 75%;
     }
 }

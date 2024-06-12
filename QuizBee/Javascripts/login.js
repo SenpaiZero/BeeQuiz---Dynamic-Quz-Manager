@@ -1,5 +1,5 @@
 import { auth, signInWithEmailAndPassword } from './firebase.js';
-import { db, collection, doc, setDoc, query, where, getDocs } from './firebase.js'; 
+import { db, collection, doc, setDoc, query, where, getDocs } from './firebase.js';
 // Handle user login
 function loginUser() {
   const username = document.getElementById('usernameTxt').value;
@@ -18,7 +18,7 @@ function loginUser() {
   getDocs(q)
     .then((querySnapshot) => {
       if (!querySnapshot.empty) {
-       
+
         const userDoc = querySnapshot.docs[0];
         const userEmail = userDoc.data().email;
 
@@ -28,7 +28,7 @@ function loginUser() {
             // User login successful
             const user = userCredential.user;
             console.log("User logged in:", user);
-            
+
             // Set quizMaster flag to true in user docu
             const userRef = doc(db, 'users', user.uid);
             setDoc(userRef, { quizMaster: true }, { merge: true })
@@ -57,7 +57,7 @@ function loginUser() {
     });
 }
 
-document.getElementById('loginBtn').addEventListener('click', function(e) {
-  e.preventDefault(); 
-  loginUser(); 
+document.getElementById('loginBtn').addEventListener('click', function (e) {
+  e.preventDefault();
+  loginUser();
 });

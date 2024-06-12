@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
     <link href="css/loginbox.css" rel="stylesheet"/>
     <link href="css/headerAnim.css" rel="stylesheet"/>
     <link href="css/style.css" rel="stylesheet"/>
@@ -58,7 +59,7 @@
               <input type="radio" id="choice2" name="choice" value="Login">
               <label for="choice2">LOGIN</label>
 
-              <div id="flap"><span class="content">productive</span></div>
+              <div id="flap"><span class="content">login</span></div>
           </form>
       </div>
       <!--End of login and join button-->
@@ -136,11 +137,15 @@
         <div id="joinBox" class="hidden joinInputContainer">
           <div class="quizTitle">ENTER QUIZ PIN</div>
             <div>
-              <input maxlength='7' value='0000000' class="joinInput"/>
+              <input id="quizCode" maxlength='7' value='0000000' class="joinInput" required/>
 
               <div class="user-box" style="margin-top: 20px;">
                 <input type="text" name="" required="" id="participantName">
                 <label>Name</label>
+              </div>
+              <div class="user-box">
+                <input type="text" name="" required="" id="quizPassword">
+                <label>Password <span>(Leave Blank if Disabled)</span></label>
               </div>
             </div>
           <br>
@@ -225,6 +230,8 @@
     <script type="module" src="Javascripts/firebase.js"></script>
     <script type="module" src="Javascripts/register.js"></script>
     <script type="module" src="Javascripts/login.js"></script>
+    <script type="module" src="Javascripts/joinQuiz.js"></script>
+    
 
    
 </body>

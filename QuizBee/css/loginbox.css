@@ -42,6 +42,10 @@
     background: transparent;
 }
 
+.login-box .user-box label span {
+    font-size: 12px;
+}
+
 .login-box .user-box label {
     position: absolute;
     top: 0;

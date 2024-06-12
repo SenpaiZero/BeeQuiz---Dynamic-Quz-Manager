@@ -2,35 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>BeeQuiz | Quiz</title>
-
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body class="teacherBody flat-bg">
     <div class="waiting-name-quiz">
-        <span>NAME OF THE QUIZ</span>
-        <span>PARTICIPANTS: 18</span>
+        <span id="quizName">NAME OF THE QUIZ</span>
+        <span id="participantCount">PARTICIPANTS: 18</span>
     </div>
-    <div class="waiting-container">
+    <div class="waiting-container" id="participantsContainer">
+        <!-- Dynamically add participants here -->
         <div class="sketch-box sketch-box1">Nameoiahfs 1</div>
-        <div class="sketch-box sketch-box2">Name 2</div>
-        <div class="sketch-box sketch-box3">Name 3</div>
-        <div class="sketch-box sketch-box1">Name 4</div>
-        <div class="sketch-box sketch-box1">Name 5</div>
-        <div class="sketch-box sketch-box2">Name 6</div>
-        <div class="sketch-box sketch-box2">Name 112</div>
-        <div class="sketch-box sketch-box2">Name 51</div>
-        <div class="sketch-box sketch-box2">Namefdg 1</div>
-        <div class="sketch-box sketch-box2">Name fdg1</div>
-        <div class="sketch-box sketch-box1">Name 1dfg</div>
-        <div class="sketch-box sketch-box3">Name 1asdadasdasda</div>
-        <div class="sketch-box sketch-box3">Name 1</div>
     </div>
-
     <div class="waiting-btn-container">
-        <button>Cancel</button>
-        <button>START</button>
+        <button id="cancelBtn">Cancel</button>
+        <button id="startBtn">START</button>
     </div>
+    <script type="module" src="Javascripts/firebase.js"></script>
+    <script type="module" src="Javascripts/waiting-area.js"></script>
 </body>
 </html>

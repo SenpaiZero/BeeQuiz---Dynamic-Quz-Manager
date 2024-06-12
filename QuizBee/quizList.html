@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>BeeQuiz | Quiz</title>
 
     <link href="css/style.css" rel="stylesheet">
@@ -60,23 +60,31 @@
             </div>
         
             <!-- Example of quiz -->
-<div class="quiz-list-section" id="quizList">
-    <div class="quiz-list-nested">
-        <div class="quiz-name">Copy mo lng div if need recreate</div>
-        <div class="code">OS8aA</div>
-        <div class="password">12345</div>
-        <div>
-            <button class="edit-btn">EDIT</button>
-            <button class="delete-btn">Delete</button>
-            <button class="start-btn">Start</button>
-        </div>
-    </div>
-</div>
-<!-- End of quiz -->
-            <!-- Example of quiz -->
-            <!--End of list-->
+            <div class="quiz-list-section" id="quizList">
+                <div class="quiz-list-nested">
+                    <div class="quiz-name">Quiz 1</div>
+                    <div class="code">OS8aA</div>
+                    <div class="password">12345</div>
+                    <div>
+                        <button class="edit-btn">EDIT</button>
+                        <button class="delete-btn">Delete</button>
+                        <button class="start-btn">Start</button>
+                    </div>
+                </div>
+            </div>
+            <!-- End of quiz -->
         </div>
         <!--End of list of quizzes-->
+    </div>
+
+    <div class="logoutCon invisible" id="popupCon">
+        <div class="logout">
+            <h1 id="titlePopup"></h1>
+            <div>
+                <button id="popupNo">NO</button>
+                <button id="popupYes">YES</button>
+            </div>
+        </div>
     </div>
     <script type="module" src="Javascripts/displayQuiz.js"></script>
 </body>
