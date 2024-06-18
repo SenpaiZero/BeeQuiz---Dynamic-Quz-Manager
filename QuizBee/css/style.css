@@ -953,9 +953,9 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     width: 100vw;
     height: 100vh;
     background-color: #000000ac;
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: fixed;
+    top: 0%;
+    left: 0%;
     align-items: center;
     align-content: center;
     z-index: 9999;
@@ -1105,6 +1105,56 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
 
 .waiting-btn-container button:hover {
     background-color: #006e7a;
+}
+
+.loader {
+    z-index: 9999;
+    position: fixed;
+    display: flex;
+    top: 0%;
+    left: 0%;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000095;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loader div {
+    width: 75px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 18px solid;
+    border-color: #b6e9ff #0000;
+    animation: l1 1s infinite;
+    height: auto;
+}
+.loader span {
+    margin-top: 10px;
+    font-family: fantasy;
+    font-size: 34px;
+}
+.loader span::after {
+    content: "";
+    animation: loading-dots 1.5s steps(4, end) infinite;
+}
+@keyframes l1 {to{transform: rotate(0.5turn)}}
+
+@keyframes loading-dots {
+    0%, 100% {
+        content: "";
+    }
+    25% {
+        content: ".";
+    }
+    50% {
+        content: "..";
+    }
+    75% {
+        content: "...";
+    }
 }
 
 @media (max-width: 768px) {

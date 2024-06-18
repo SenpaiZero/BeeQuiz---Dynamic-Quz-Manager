@@ -1,9 +1,15 @@
 .correct-answer {
-    background-color: #d4edda; 
+    background-color: hsl(134, 93%, 70%); 
     border: 2px solid #28a745; 
 }
 
 .incorrect-answer {
-    background-color: #f8d7da; 
+    background-color: #ffd2d5; 
     border: 2px solid #dc3545; 
+}
+.quiz-answer.selected-answer {
+    background-color: #c9fbd0;
+    border: 1px solid #fcf3e3; 
+    color: #333; 
+    cursor: pointer;
 }

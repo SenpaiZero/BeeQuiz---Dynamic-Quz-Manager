@@ -220,18 +220,27 @@
       <!--End Tutorial Section-->
   </div>
    
-  
+  <div class="loader invisible" id="loader">
+    <div></div>
+    <span>LOADING</span>
+  </div>
+  <div class="message-container invisible" id="messageCon">
+    <div>
+        <span id="textMessage"></span>
+        <button id="closeMessage">CLOSE</button>
+    </div>
+</div>
   
 
     <script src="Javascripts/toggleAnimation.js"></script>
     <script src="Javascripts/headerAnim.js"></script>
 
+    <script type="module" src="Javascripts/dialogueBox.js"></script>
     <script src="Javascripts/homepage.js"></script>
     <script type="module" src="Javascripts/firebase.js"></script>
     <script type="module" src="Javascripts/register.js"></script>
     <script type="module" src="Javascripts/login.js"></script>
     <script type="module" src="Javascripts/joinQuiz.js"></script>
-    
 
    
 </body>

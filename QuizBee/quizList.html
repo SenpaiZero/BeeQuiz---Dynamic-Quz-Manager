@@ -16,22 +16,22 @@
                 <span>DASHBOARD</span>
                 <div>
                     <div class="quiz-list-dashboard">
-                        <span>ONGOING</span>
-                        <span>2</span>
+                        <span>CREATED</span>
+                        <span id="created">0</span>
                     </div>
                     <div class="quiz-list-dashboard">
-                        <span>DONE</span>
-                        <span>7</span>
+                        <span>FINISHED</span>
+                        <span id="finished">0</span>
                     </div>
                 </div>
                 <div>
                     <div class="quiz-list-dashboard">
-                        <span>ONGOING ARCHIVED</span>
-                        <span>0</span>
+                        <span>CREATED ARCHIVED</span>
+                        <span id="created_archived">0</span>
                     </div>
                     <div class="quiz-list-dashboard">
-                        <span>DONE ARCHIVED</span>
-                        <span>4</span>
+                        <span>FINISHED ARCHIVED</span>
+                        <span id="finished_archived">0</span>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                 <input type="text" placeholder="Search">
                 <button>SEARCH</button>
                 <button>All</button>
-                <button>Archived</button>
+                <button id="viewBtn">Normal</button>
             </div>
             <!--End of navigation-->
 
@@ -77,6 +77,10 @@
         <!--End of list of quizzes-->
     </div>
 
+    <div class="loader" id="loader">
+        <div></div>
+        <span>LOADING</span>
+    </div>
     <div class="logoutCon invisible" id="popupCon">
         <div class="logout">
             <h1 id="titlePopup"></h1>

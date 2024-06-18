@@ -1,5 +1,6 @@
 import { auth, createUserWithEmailAndPassword } from './firebase.js';
 import { db, collection, doc, setDoc } from './firebase.js'; 
+import { showMessage, showMessage_color, showMessage_redirect, showMessage_redirect_color } from "./dialogueBox.js";
 
 function registerUser() {
   const fullName = document.getElementById('regFullNameTxt').value;
@@ -8,15 +9,19 @@ function registerUser() {
   const password = document.getElementById('regPasswordTxt').value;
   const confirmPassword = document.getElementById('confirmRegPasswordTxt').value;
 
+  document.getElementById('loader').classList.remove('invisible');
+
   // Check if any of the input fields are empty
   if (!fullName || !username || !email || !password || !confirmPassword) {
-    alert("Please fill in all fields.");
+    document.getElementById('loader').classList.add('invisible'); // Hide loader
+    showMessage_color("Please fill in all fields.", "warning");
     return;
   }
 
   // Check if passwords match
   if (password !== confirmPassword) {
-    alert("Passwords do not match!");
+    document.getElementById('loader').classList.add('invisible'); // Hide loader
+    showMessage_color("Passwords do not match!", "warning");
     return;
   }
 
@@ -29,7 +34,8 @@ function registerUser() {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // User registered successfully
-      alert("User registered successfully!");
+      document.getElementById('loader').classList.add('invisible'); // Hide loader  
+      showMessage_color("User registered successfully!", "success");
 
       // Save user to Firestore
       const rand = generateRandomNumber();
@@ -57,10 +63,12 @@ function registerUser() {
 
           })
           .catch((error) => {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
             console.error("Error creating quiz table: ", error);
           });
       })
       .catch((error) => {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
         console.error("Error saving user data: ", error);
       });
 
@@ -75,8 +83,9 @@ function registerUser() {
       document.getElementById('loginBox').classList.remove('hidden');
     })
     .catch((error) => {
+      document.getElementById('loader').classList.add('invisible'); // Hide loader
       console.error(`Error: ${error.message}`);
-      alert(`Error: ${error.message}`);
+      showMessage_color('Error: ' + error.message, "error");
     });
 }
 

@@ -9,7 +9,7 @@
 </head>
 <body class="flat-bg">
     <div>
-        <h1 style="text-align: center; margin-top: 20px; font-size: 60px; color: #00d5f1;;">CREATE NEW QUIZ</h1>
+        <h1 id="page-title" style="text-align: center; margin-top: 20px; font-size: 60px; color: #00d5f1;;">CREATE NEW QUIZ</h1>
     </div>
     <!-- Done Background animation -->
 
@@ -134,12 +134,17 @@
         </div>
     </div>
 
+    <div class="loader invisible" id="loader">
+        <div></div>
+        <span>LOADING</span>
+    </div>
     <div class="message-container invisible" id="messageCon">
         <div>
             <span id="textMessage"></span>
             <button id="closeMessage">CLOSE</button>
         </div>
     </div>
+   <script type="module" src="Javascripts/editQuiz.js"></script>
    <script type="module" src="Javascripts/createQuiz.js"></script>
    <script type="module" src="Javascripts/validation.js"></script>
    <script type="module" src="Javascripts/dialogueBox.js"></script>

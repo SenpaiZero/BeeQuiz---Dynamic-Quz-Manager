@@ -44,7 +44,7 @@ logoutBtn.addEventListener("click", function() {
 });
 
 createBtn.addEventListener("click", function() {
-    window.location.href = "createQuiz.html";
+    window.location.href = "createQuiz.html?action=create";
 });
 
 listBtn.addEventListener("click", function() {

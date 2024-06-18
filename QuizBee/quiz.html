@@ -9,7 +9,7 @@
     <link href="css/quizAnswer.css" rel="stylesheet">
     <link href="css/backgroundRipple.css" rel="stylesheet"/>
     <style>
-        /* Include the CSS code provided above */
+        /* Include additional necessary CSS */
     </style>
 </head>
 <body class="teacherBody">
@@ -29,33 +29,27 @@
     <div class="quiz-container" id="quizContainer">
         <div class="quiz-question-container">
             <div class="quiz-question">
-                <p id="questionTxt">
-                    1Question Question Question Question Question Question Question Question QuestQuestion Question Question QuestQuestion Question Question QustQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QueststQuestion QuestestQuestion QueststQuestion Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question Question 2
-                </p>
+                <p id="questionTxt">Question will appear here</p>
             </div>
-            <div class="quiz-timer">
+            <div class="quiz-timer" id="quiz-timer">
                 Time
             </div>
         </div>
 
-        <div class="quiz-answer-container">
-            <div class="quiz-answer"><p class="ans">1234567891234567898812222123456789123456789881222</p></div>
-            <div class="quiz-answer"><p class="ans">Answer An Answer Answer Answer Ansrer Answer </p></div>
-            <div class="quiz-answer"><p class="ans">Answer Answer Answer Answer AnAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer AAnswer Answer Aswer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer </p></div>
-            <div class="quiz-answer"><p class="ans">Answer Answer Answer Answer Answer Answer Answe Answer Answr </p></div>
+        <div class="quiz-answer-container" id="answerContainer">
+            <!-- Answers will be populated here -->
         </div>
 
         <div class="quiz-footer-container">
-            <div class="quiz-footer-item">Question 1/25</div>
-            <div class="quiz-footer-item">Score: 30</div>
-            <div class="quiz-footer-item">Rank Leaderboard: 3/10</div>
-            <div class="quiz-footer-item">Quiz Name</div>
+            <div class="quiz-footer-item" id="questionCount">Question 1/25</div>
+            <div class="quiz-footer-item" id="score">Score: 0</div>
+            <div class="quiz-footer-item" id="rank">Rank Leaderboard: N/A</div>
+            <div class="quiz-footer-item" id="quizName">Quiz Name</div>
         </div>
     </div>
 
-    
-        <script type= "module" src="Javascripts/firebase.js"></script>
-        <script type= "module" src="Javascripts/startQuiz.js"></script>
-        <script src="Javascripts/quizUI.js"></script>
+    <script type="module" src="Javascripts/firebase.js"></script>
+    <script type="module" src="Javascripts/startQuiz.js"></script>
+    <script src="Javascripts/quizUI.js"></script>
 </body>
 </html>

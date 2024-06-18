@@ -3,6 +3,9 @@ import { isValidFullName, isValidEmail, isValidUsername } from "./validation.js"
 import { showMessage, showMessage_color } from "./dialogueBox.js";
 async function updateUserInfo(fullName, username, email) {
     const user = auth.currentUser;
+
+    document.getElementById('loader').classList.remove('invisible');
+
     if (!user) {
         console.error("No user is currently logged in");
         return;
@@ -17,6 +20,7 @@ async function updateUserInfo(fullName, username, email) {
             if(isValidFullName(fullName)) {
                 updateData.fullName = fullName;
             } else {
+                document.getElementById('loader').classList.add('invisible'); // Hide loader
                 showMessage_color("Only Letters and space are allowed in full name.", "warning");
                 return;
             }
@@ -25,6 +29,7 @@ async function updateUserInfo(fullName, username, email) {
             if(isValidUsername(username)) {
                 updateData.username = username;
             } else {
+                document.getElementById('loader').classList.add('invisible'); // Hide loader
                 showMessage_color("Only Letters, Numbers and underscore are allowed in username.", "warning");
                 return;
             }
@@ -35,17 +40,22 @@ async function updateUserInfo(fullName, username, email) {
                     await updateEmail(user, email);  // Update email in Firebase Authentication
                     updateData.email = email;
                 } else {
+                    document.getElementById('loader').classList.add('invisible'); // Hide loader
                     showMessage_color("The email you entered is not valid.", "warning");
                     return;
                 }
             } catch (error) {
                 if (error.code === 'auth/requires-recent-login') {
+                    document.getElementById('loader').classList.add('invisible'); // Hide loader
                     showMessage_color("Please reauthenticate before updating your email.", "error");
                 } else if (error.code === 'auth/email-already-in-use') {
+                    document.getElementById('loader').classList.add('invisible'); // Hide loader
                     showMessage_color("The email address is already in use by another account.", "warning");
                 } else if (error.message.includes("Please verify the new email before changing email")) {
+                    document.getElementById('loader').classList.add('invisible'); // Hide loader
                     showMessage_color("Please verify the new email before changing it.", "warning");
                 } else {
+                    document.getElementById('loader').classList.add('invisible'); // Hide loader
                     console.error("Error updating email", error);
                     showMessage_color("Error updating email. Please try again.", "warning");
                 }
@@ -56,13 +66,16 @@ async function updateUserInfo(fullName, username, email) {
         // Only update if there are fields to update
         if (Object.keys(updateData).length > 0) {
             await updateDoc(userDocRef, updateData);
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
             showMessage_color("User information updated successfully", "success");
             console.log("User information updated successfully");
         } else {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
             showMessage_color("Please fill up a field before updating information.", "warning");
             console.log("No information to update");
         }
     } catch (error) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
         console.error("Error updating user information", error);
         showMessage_color("Error updating user information. Please try again.", "error");
     }
@@ -70,12 +83,16 @@ async function updateUserInfo(fullName, username, email) {
 
 async function updatePasswordFunction(currentPassword, newPassword) {
     const user = auth.currentUser;
+    
+    document.getElementById('loader').classList.remove('invisible');
+
     if (!user) {
         console.error("No user is currently logged in");
         return;
     }
 
     if(!currentPassword || !newPassword) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
         showMessage_color("Please fill up the fields before updating the password.", "warning");
         return;
     }
@@ -84,20 +101,26 @@ async function updatePasswordFunction(currentPassword, newPassword) {
         const credential = EmailAuthProvider.credential(user.email, currentPassword);
         await reauthenticateWithCredential(user, credential);  // Reauthenticate the user
         await updatePassword(user, newPassword);  // Update the password
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
         showMessage_color("Password updated successfully", "success");
         console.log("Password updated successfully");
     } catch (error) {
         console.error("Error updating password", error);
         if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-login-credentials') {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
             showMessage_color("The current password you entered is incorrect.", "warning");
         } else if (error.code === 'auth/weak-password') {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
             showMessage_color("The new password is too weak. Please choose a stronger password.", "warning");
         } else if (error.code === 'auth/requires-recent-login') {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
             showMessage_color("Please reauthenticate before updating your password.", "error");
         } 
         else if(error.code === 'auth/too-many-requests') {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
             showMessage_color("Too many attemps. Please Try Again Later.", "error");
         }else {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
             console.error("Error updating password", error);
             showMessage_color("Error updating password. Please try again.", "warning");
         }
