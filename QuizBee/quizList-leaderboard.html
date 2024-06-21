@@ -3,76 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>BeeQuiz | Quiz</title>
-
+    <title>BeeQuiz | Leaderboards</title>
     <link href="css/style.css" rel="stylesheet">
+    <link rel="icon" href="Icons/favicon.ico" type="image/x-icon"/>
 </head>
 <body class="teacherBody flat-bg">
     <div class="quiz-list-container">
-        <!--Start of quiz leaderboard-->
+        <!-- Start of quiz leaderboard -->
         <div class="quiz-list-db-container">
             <div class="quiz-list-db-title">LEADERBOARD</div>
             <div class="quiz-list-info">
-                <span>LIST</span>
-                <div class="quiz-list-leaderboard">
+                <span id="list-lb">LIST</span>
+                <div class="quiz-list-leaderboard" id="lb-list">
                     <div>
                         <h5>RANK</h5>
                         <span>|</span>
                         <h5>NAME</h5>
                     </div>
-                    <div>
-                        <h5>#1</h5>
-                        <span>|</span>
-                        <h5>Copy mo lang div if re-create mo</h5>
-                    </div>
-                    <div>
-                        <h5>#2</h5>
-                        <span>|</span>
-                        <h5>Name</h5>
-                    </div>
-                    <div>
-                        <h5>#3</h5>
-                        <span>|</span>
-                        <h5>Name</h5>
-                    </div>
                 </div>
             </div>
-            <!--End of quiz leaderboard-->
+            <!-- End of quiz leaderboard -->
             <button class="quiz-list-db-button">TEACHER HOME</button>
         </div>
-        <!--Start of list of quizzes-->
+        <!-- Start of list of quizzes -->
         <div class="quiz-list-list">
-            <!--Start of navigation-->
+            <!-- Start of navigation -->
             <div class="quiz-nav">
-                <input type="text" placeholder="Search" class="quiz-lb-search">
-                <button class="quiz-lb-btn">SEARCH</button>
+                <input type="text" placeholder="Search" class="quiz-lb-search" id="searchTB">
+                <button class="quiz-lb-btn" id="searchBtn">SEARCH</button>
+                <button class="quiz-lb-btn" id="archiveBtn">Normal</button>
             </div>
-            <!--End of navigation-->
-
-            <!--Start of list-->
-            <div class="quiz-list-section">
+            <!-- End of navigation -->
+            <!-- Start of list -->
+            <div class="lb-list-section">
+                <div class="quiz-list-nested quiz-list-header">
+                    <div>QUIZ NAME</div>
+                    <div>PARTICIPANTS</div>
+                    <div>ACTIONS</div>
+                </div>
+            </div>
+            <div class="lb-list-section" id="quizList">
                 <div class="quiz-list-nested quiz-list-header">
                     <div>QUIZ NAME</div>
                     <div>NO. OF PARTICIPANTS</div>
                     <div>ACTIONS</div>
                 </div>
             </div>
-
-            <!-- Example of leaderboard -->
-            <div class="quiz-list-section">
-                <div class="quiz-list-nested">
-                    <div>Copy mo lng div if need recreate</div>
-                    <div>12</div>
-                    <div>
-                        <button class="quiz-list-view-custom">View</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Example of leaderboard -->
-             
-            <!--End of list-->
+            <!-- End of list -->
         </div>
-        <!--End of list of quizzes-->
+        <!-- End of list of quizzes -->
     </div>
+    
+    <div class="loader" id="loader">
+        <div></div>
+        <span>LOADING</span>
+    </div>
+    <script type="module" src="Javascripts/quizList-leaderboard.js"></script>
 </body>
 </html>

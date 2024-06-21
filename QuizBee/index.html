@@ -7,6 +7,8 @@
     <link href="css/style.css" rel="stylesheet"/>
     <link href="css/backgroundRipple.css" rel="stylesheet"/>
     <link href="css/goeyAnimation.css" rel="stylesheet"/>
+    <link rel="icon" href="Icons/favicon.ico" type="image/x-icon"/>
+    <title>BeeQuiz</title>
 </head>
 <body>
     <div class="main-container">
@@ -137,7 +139,7 @@
         <div id="joinBox" class="hidden joinInputContainer">
           <div class="quizTitle">ENTER QUIZ PIN</div>
             <div>
-              <input id="quizCode" maxlength='7' value='0000000' class="joinInput" required/>
+              <input id="quizCode" maxlength='6' value='000000' class="joinInput" required/>
 
               <div class="user-box" style="margin-top: 20px;">
                 <input type="text" name="" required="" id="participantName">
@@ -229,14 +231,15 @@
         <span id="textMessage"></span>
         <button id="closeMessage">CLOSE</button>
     </div>
-</div>
+  </div>
   
 
-    <script src="Javascripts/toggleAnimation.js"></script>
-    <script src="Javascripts/headerAnim.js"></script>
+    <script type="module" src="Javascripts/toggleAnimation.js"></script>
+    <script type="module" src="Javascripts/headerAnim.js"></script>
 
     <script type="module" src="Javascripts/dialogueBox.js"></script>
-    <script src="Javascripts/homepage.js"></script>
+    <script type="module" src="Javascripts/homepage.js"></script>
+
     <script type="module" src="Javascripts/firebase.js"></script>
     <script type="module" src="Javascripts/register.js"></script>
     <script type="module" src="Javascripts/login.js"></script>

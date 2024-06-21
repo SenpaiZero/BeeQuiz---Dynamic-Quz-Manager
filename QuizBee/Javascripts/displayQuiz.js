@@ -6,12 +6,64 @@ let created_archived = 0;
 let finished = 0;
 let finished_archived = 0;
 let isArchive = false;
-
-
+let isFinish = false;
+let allowView = false;
+let allowFilter = false;
+let timeoutId;
+let lastClickTime = 0;
+const clickDelay = 1500;
 
 document.addEventListener('DOMContentLoaded', async function () {
 
+    document.querySelector(".quiz-nav button").addEventListener("click", function() {
+        const searchTerm = document.querySelector(".quiz-nav input").value.toLowerCase();
+        filterQuizzes(searchTerm);
+    });
+
+    document.getElementById("viewBtnFilter").addEventListener("click", async function() {
+
+        const now = Date.now();
+        if (now - lastClickTime < clickDelay) {
+            return; 
+        }
+        lastClickTime = now;
+
+        document.querySelector(".quiz-nav input").value = "";
+        if(isFinish) {
+            document.getElementById("viewBtnFilter").textContent = "Created";
+            isFinish = false;
+        } else {
+            document.getElementById("viewBtnFilter").textContent = "Finished";
+            isFinish = true;
+        }
+
+        // Get the current user's ID and fetch the quizzes again
+        const user = auth.currentUser;
+        if (user) {
+            const userId = user.uid;
+            document.querySelectorAll('quiz-can-remove').forEach(e => e.remove());
+            await fetchUserQuizzes(userId);
+        }
+    });
+    function filterQuizzes(searchTerm) {
+            const quizElements = document.querySelectorAll('.quiz-can-remove');
+            quizElements.forEach(quizElement => {
+                const quizName = quizElement.querySelector('.quiz-name').textContent.toLowerCase();
+                if (quizName.includes(searchTerm)) {
+                    quizElement.style.display = '';
+                } else {
+                    quizElement.style.display = 'none';
+                }
+            });
+        }
     document.getElementById("viewBtn").addEventListener("click", async function() {
+        
+        const now = Date.now();
+        if (now - lastClickTime < clickDelay) {
+            return; 
+        }
+        lastClickTime = now;    
+        document.querySelector(".quiz-nav input").value = "";
         if (isArchive) {
             document.getElementById("viewBtn").textContent = "Normal";
             isArchive = false;
@@ -102,8 +154,8 @@ document.addEventListener('DOMContentLoaded', async function () {
                             document.getElementById("finished_archived").textContent = finished_archived.toString();
 
                             // Filter quizzes based on the isArchive state
-                        if ((isArchive && (status === "created_archived" || status === "finished_archived")) || 
-                            (!isArchive && (status === "created" || status === "finished"))) {
+                        if ((isArchive && ((status === "created_archived" && !isFinish) || (status === "finished_archived" && isFinish))) || 
+                            (!isArchive && ((status === "created" && !isFinish) || (status === "finished" && isFinish)))) {
                                 quizPromises.push(displayQuiz(quizName, code, password, tableId, status, userId));
                             }
                         }
@@ -144,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     <div class="password">${password}</div>
                     <div>
                         <button class="edit-btn">EDIT</button>
-                        <button class="delete-btn">Delete</button>
+                        <button class="delete-btn">ARCHIVE</button>
                         <button class="start-btn">Start</button>
                     </div>
                 </div>
@@ -161,6 +213,23 @@ document.addEventListener('DOMContentLoaded', async function () {
                     <div>
                         <button class="edit-btn invisible">EDIT</button>
                         <button class="delete-btn">Unarchive</button>
+                        <button class="start-btn invisible">Start</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        }
+
+        if(status == "finished") {
+            quizHtml = `
+            <div class="quiz-list-section quiz-can-remove">
+                <div class="quiz-list-nested">
+                    <div class="quiz-name">${quizName}</div>
+                    <div class="code">${code}</div>
+                    <div class="password">${password}</div>
+                    <div>
+                        <button class="edit-btn invisible">EDIT</button>
+                        <button class="delete-btn">Archive</button>
                         <button class="start-btn invisible">Start</button>
                     </div>
                 </div>
@@ -191,7 +260,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 const quizNameElement = quizElement.querySelector('.quiz-name');
                 const quizName = quizNameElement.textContent.trim();
 
-                window.location.href = `createQuiz.html?action=edit&organizer=${encodeURIComponent(userId)}&tableId=${encodeURIComponent(tableId)}&quizName=${encodeURIComponent(quizName)}`;
+                window.location.href = `editQuiz.html?action=edit&organizer=${encodeURIComponent(userId)}&tableId=${encodeURIComponent(tableId)}&quizName=${encodeURIComponent(quizName)}`;
             });
         });
 
@@ -222,7 +291,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                             await updateDoc(quizRef, { status: 'waiting' });
 
                             // Redirect to waiting-area.html with quizName as a query parameter
-                            window.location.href = `waiting-area.html?quizName=${encodeURIComponent(quizName)}&quizCode=${encodeURIComponent(code)}&userId=${(userId)}`;
+                            window.location.href = `waiting-area.html?quizName=${encodeURIComponent(quizName)}&quizCode=${encodeURIComponent(code)}&userId=${(userId)}&tableId=${encodeURIComponent(tableId)}`;
                         } else {
                             console.error('Quiz name not found or empty.');
                         }
@@ -321,7 +390,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 .then(() => console.log('Quizzes fetched successfully'))
                 .catch(error => console.error('Error fetching quizzes:', error));
         } else {
-            console.log('No user is signed in');
+            window.location.replace("index.html");
         }
     });
 });

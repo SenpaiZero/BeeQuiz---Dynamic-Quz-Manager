@@ -1,9 +1,198 @@
-// Assuming you have a separate JavaScript file for editing the quiz
-import { auth, collection, db, doc, getDoc, getDocs } from "./firebase.js";
+import { auth, collection, db, doc, getDoc, getDocs, deleteDoc, setDoc, serverTimestamp, addDoc } from "./firebase.js";
 import { showMessage_color, showMessage_redirect_color } from "./dialogueBox.js";
+import { isNumberOnly } from "./validation.js";
+const urlParams = new URLSearchParams(window.location.search);
+let uid;
+let tableId;
+let quizName;
+
+document.getElementById('createQuizBtn').addEventListener("click", async function() {
+    document.getElementById('loader').classList.remove('invisible');
+    
+    
+    uid = urlParams.get('organizer');
+
+    const quizTablesRef = collection(db, `users/${uid}/quizTables`);
+    const quizTablesSnapshot = await getDocs(quizTablesRef);
+    
+    // user has only one quiz table, get its ID
+    const quizTableId = quizTablesSnapshot.docs[0].id;
+    
+    // Check if quizTableId is defined
+    if (!quizTableId) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        showMessage_color("No quiz table found for the current user.", "error");
+        return;
+    }
+    
+    // Get quiz data from the form
+    const quizDesc = document.getElementById("quizDescTxt").value;
+    const quizCode = document.getElementById("quizCodeTxt").value;
+    const defaultScore = document.getElementById("defaultScoreTxt").value;
+    const defaultTimer = document.getElementById("defaultTimerTxt").value;
+    const requirePassword = document.getElementById("requirePassCB").checked;
+    const quizPassword = document.getElementById("quizPasswordTxt").value;
+
+    if (!quizDesc) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        showMessage_color("Quiz Description field is empty. Please fill it up.", "warning");
+        return;
+    }
+    if (!quizCode) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        showMessage_color("Quiz Code field is empty. Please fill it up.", "warning");
+        return;
+    }
+    if (!defaultScore) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        showMessage_color("Default Score field is empty. Please fill it up.", "warning");
+        return;
+    }
+    if (!isNumberOnly(defaultScore)) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        showMessage_color("Only numbers are allowed in Default Score.", "warning");
+        return;
+    }
+    if (!defaultTimer) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        showMessage_color("Default Timer field is empty. Please fill it up.", "warning");
+        return;
+    }
+    if (!isNumberOnly(defaultTimer)) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        showMessage_color("Only numbers are allowed in Default Timer.", "warning");
+        return;
+    }
+    // If requiredPassword is checked, Password field required to fill
+    if (requirePassword && !quizPassword) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        showMessage_color("Password field is empty. Please fill it up.", "warning");
+        return;
+    }
+
+    // Collect quiz data from the form
+    let hasError = false;
+    const quizData = [];
+    const questionForms = document.querySelectorAll(".createForm");
+    questionForms.forEach(form => {
+        if (hasError) return;
+
+        const questionText = form.querySelector(".question-text").value;
+        const choices = Array.from(form.querySelectorAll(".choice-text")).map(choice => choice.value);
+        const correctChoiceCheckboxes = form.querySelectorAll(".correct-choice:checked");
+        const correctChoiceIndices = Array.from(correctChoiceCheckboxes).map(checkbox => {
+            const choiceIndex = Array.from(form.querySelectorAll(".correct-choice")).indexOf(checkbox);
+            return choiceIndex;
+        }).filter(index => index !== -1);
+
+        // Validate question and choices
+        if (!questionText) {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            showMessage_color("A question field is empty. Please fill it up.", "warning");
+            hasError = true;
+            return;
+        }
+        if (choices.some(choice => !choice)) {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            showMessage_color("One or more answer fields are empty. Please fill them up.", "warning");
+            hasError = true;
+            return;
+        }
+        if (correctChoiceIndices.length === 0) {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            showMessage_color("No correct answer is selected. Please select at least one correct answer.", "warning");
+            hasError = true;
+            return;
+        }
+
+        // Enable or disable the custom settings input fields based on checkBox status (checked or not)
+        const customTimerChecked = form.querySelector(".custom-timer").checked;
+        const customScoreChecked = form.querySelector(".custom-score").checked;
+        const timerValue = form.querySelector(".timer-value").value;
+        const scoreValue = form.querySelector(".score-value").value;
+
+        // Validate custom settings
+        if (customTimerChecked && !timerValue) {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            showMessage_color("Please fill in the custom timer value.", "warning");
+            hasError = true;
+            return;
+        }
+
+        if (customScoreChecked && !scoreValue) {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            showMessage_color("Please fill in the custom score value.", "warning");
+            hasError = true;
+            return;
+        }
+
+        if (customScoreChecked && !isNumberOnly(scoreValue)) {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            showMessage_color("Only numbers are allowed in custom score.", "warning");
+            hasError = true;
+            return;
+        }
+        if (customTimerChecked && !isNumberOnly(timerValue)) {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            showMessage_color("Only numbers are allowed in custom timer.", "warning");
+            hasError = true;
+            return;
+        }
+        quizData.push({
+            questionText: questionText,
+            choices: choices,
+            correctChoices: correctChoiceIndices,
+            customTimer: customTimerChecked ? timerValue : null,
+            customScore: customScoreChecked ? scoreValue : null
+        });
+    });
+
+    if (hasError) return;
+
+    uid = urlParams.get('organizer');
+    tableId = urlParams.get('tableId');
+    quizName = urlParams.get('quizName');
+    
+    // Delete the existing quiz document
+    const quizRef = doc(db, `users/${uid}/quizTables/${tableId}/quizzes/${quizName}`);
+    // Delete existing questions
+    const questionsCollectionRef = collection(db, `users/${uid}/quizTables/${tableId}/quizzes/${quizName}/questions`);
+    const questionsSnapshot = await getDocs(questionsCollectionRef);
+    for (const questionDoc of questionsSnapshot.docs) {
+        await deleteDoc(questionDoc.ref);
+    }
+
+    // Save quiz settings within the specific quiz document in the settings sub-collection
+    const settingsRef = doc(db, `users/${uid}/quizTables/${tableId}/settings/${quizName}`);
+    await setDoc(settingsRef, {
+        name: quizName,
+        description: quizDesc,
+        code: quizCode,
+        requirePassword: requirePassword,
+        password: requirePassword ? quizPassword : null,
+        defaultScore: defaultScore,
+        defaultTimer: defaultTimer,
+        status: 'created',
+        createdAt: serverTimestamp(),
+        userId: uid
+    });
+
+    // Save the new quiz document
+    await setDoc(quizRef, {
+        status: 'created',
+        questions: quizData
+    });
+
+    const questionsRef = collection(quizRef, "questions");
+    await Promise.all(quizData.map(async (question) => {
+        await addDoc(questionsRef, question);
+    }));
+    document.getElementById('loader').classList.add('invisible'); // Hide loader
+    showMessage_redirect_color("Quiz edited successfully.", "quizList.html", "success");
+});
 
 document.addEventListener("DOMContentLoaded", async function() {
-    const urlParams = new URLSearchParams(window.location.search); 
+    const urlParams = new URLSearchParams(window.location.search);
     const action = urlParams.get('action');
     if (action === 'edit') {
         document.getElementById("page-title").innerHTML = "EDIT QUIZ";
@@ -11,13 +200,13 @@ document.addEventListener("DOMContentLoaded", async function() {
         document.getElementById("page-title").innerHTML = "CREATE QUIZ";
         return;
     }
-    document.getElementById("createQuizBtn").innerHTML =`
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                UPDATE
-            `;
+    document.getElementById("createQuizBtn").innerHTML = `
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        UPDATE
+    `;
 
     document.getElementById('loader').classList.remove('invisible');
     const organizer = urlParams.get('organizer');
@@ -45,12 +234,6 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 async function loadQuizData(organizer, quizName, tableId, userId) {
     try {
-        const user = auth.currentUser;
-        if (userId) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
-            showMessage_color("You need to be logged in to edit a quiz.", "error");
-            return;
-        }
 
         const quizRefSetting = doc(db, `users/${organizer}/quizTables/${tableId}/settings/${quizName}`);
         const quizDocSetting = await getDoc(quizRefSetting);
@@ -99,7 +282,13 @@ function populateQuestionsList(questions) {
     });
 }
 
+document.getElementById("newQuizBtn").addEventListener("click", function() {
+    const s = {choices: ["", "", "", ""], correctChoices: [-1]};
+    addNewQuestion(s, document.querySelectorAll(".create-container").length + 1);
+});
+
 function addNewQuestion(questionData = {}, questionNumber = 1) {
+    console.log(questionData);
     const newQuestion = document.createElement("div");
     newQuestion.classList.add("create-container");
     newQuestion.innerHTML = `

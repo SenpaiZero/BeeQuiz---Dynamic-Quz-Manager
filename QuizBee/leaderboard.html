@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>BeeQuiz | Leaderboard</title>
+    <link rel="icon" href="Icons/favicon.ico" type="image/x-icon"/>
 
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -17,40 +18,34 @@
         <div class="leaderboard-num1-2-3">
             <div class="leaderboard-num1">
                 <img src="Icons/gold-cup.png">
-                <div>NAMELONGLONGLONG LONGLONGLONGLONG LONGLONG  LONG  LONGLONGLONG</div>
-                <div class="leaderboard-points">5000</div>
+                <div id="top1-name">NAMELONGLONGLONG LONGLONGLONGLONG LONGLONG  LONG  LONGLONGLONG</div>
+                <div id="top1-score" class="leaderboard-points">5000</div>
             </div>
             <div class="leaderboard-num2">
                 <img src="Icons/silver-cup.png">
-                <div>NAMELONGLONGLONG LONGLONGLONGLONG LONGLONG  LONG  LONGLONGLONG</div>
-                <div class="leaderboard-points">3333</div>
+                <div id="top2-name">NAMELONGLONGLONG LONGLONGLONGLONG LONGLONG  LONG  LONGLONGLONG</div>
+                <div id="top2-score" class="leaderboard-points">3333</div>
             </div>
             <div class="leaderboard-num3">
                 <img src="Icons/bronze-cup.png">
-                <div>NAMELONGLONGLONG LONGLONGLONGLONG LONGLONG  LONG  LONGLONGLONG</div>
-                <div class="leaderboard-points">123</div>
+                <div id="top3-name">NAMELONGLONGLONG LONGLONGLONGLONG LONGLONG  LONG  LONGLONGLONG</div>
+                <div id="top3-score" class="leaderboard-points">123</div>
             </div>
         </div>
         <!--End of top 3 leaderboard-->
 
-        <!--Start of the rest of the list-->
-        <div class="leaderboard-list">
-            <div>
+        <!-- Start of the rest of the list -->
+        <div class="leaderboard-list" id="leaderboardList">
+            <div class="leaderboard-header">
                 <span>RANK</span>
                 <span>NAME</span>
             </div>
-            <div>
-                <span>#4</span>
-                <span>copy pastelng div neto for each name sa leaderboard</span>
-            </div>
-            <div>
-                <span>#5</span>
-                <span>heheheheheh try</span>
-            </div>
+            <!-- Dynamic participants will be added here -->
         </div>
-        <!--End of the rest of the list-->
+        <!-- End of the rest of the list -->
     </div>
     <!--End of leaderboard list-->
-
+    
+    <script type="module" src="Javascripts/leaderboard.js"></script>
 </body>
 </html>

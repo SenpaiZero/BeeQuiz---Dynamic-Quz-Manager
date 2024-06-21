@@ -1,4 +1,5 @@
-import { auth, db, doc, getDocs, collection, onSnapshot, updateDoc, query, collectionGroup, where, onAuthStateChanged } from './firebase.js';
+import { auth, db, doc, getDocs, collection, onSnapshot, updateDoc, query,runTransaction, collectionGroup, where, onAuthStateChanged } from './firebase.js';
+import { showMessage, showMessage_color } from "./dialogueBox.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, async (user) => {
@@ -18,8 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 handleParticipantJoin(quizCode, quizName,participantId,participantName);
                 hideStartButton();
             } else {
-                alert('You must enter a quiz code to join as a participant.');
-                window.location.href = 'index.html';
+                window.location.replace("index.html");
             }
         }
     });
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 await startQuiz(quizName);
             } else {
                 console.error('Quiz name is missing.');
-                alert('Quiz name is missing. Cannot start the quiz.');
+                showMessage_color('Quiz name is missing. Cannot start the quiz.', "warning");
             }
         });
     } else {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 await cancelQuiz(quizName);
             } else {
                 console.error('Quiz name is missing.');
-                alert('Quiz name is missing. Cannot cancel the quiz.');
+                showMessage_color('Quiz name is missing. Cannot cancel the quiz.', "warning");
             }
         });
     } else {
@@ -60,27 +60,37 @@ async function startQuiz(quizName) {
         const userId = auth.currentUser.uid;
         const quizRef = await getQuizRefForHost(userId, quizName);
 
-        if (!quizRef) {
-            throw new Error('Quiz reference not found');
-        }
+        await runTransaction(db, async (transaction) => {
+            const quizDoc = await transaction.get(quizRef);
 
-        await updateDoc(quizRef, { status: 'started' });
-        console.log('Quiz started successfully');
+            if (!quizDoc.exists()) {
+                throw new Error('Quiz document does not exist');
+            }
+
+            const quizData = quizDoc.data();
+            if (quizData.status !== 'waiting') {
+                throw new Error('Quiz cannot be started. Status is not waiting.');
+            }
+
+            transaction.update(quizRef, { status: 'started' });
+            console.log('Quiz started successfully');
+        });
 
         const redirectUrl = `quiz.html?quizName=${encodeURIComponent(quizName)}`;
         window.location.href = redirectUrl;
 
     } catch (error) {
         console.error('Error starting quiz:', error);
-        alert('Failed to start quiz. Please try again.');
+        showMessage_color('Failed to start quiz. Please try again.', "error");
     }
 }
+
 function handleParticipantJoin(quizCode, quizName, participantId, participantName) {
     try {
         const settingsQuery = query(collectionGroup(db, 'settings'), where('code', '==', quizCode));
         getDocs(settingsQuery).then(settingsQuerySnapshot => {
             if (settingsQuerySnapshot.empty) {
-                alert('Invalid quiz code');
+                showMessage_color('Invalid quiz code', "warning");
                 return;
             }
 
@@ -92,7 +102,7 @@ function handleParticipantJoin(quizCode, quizName, participantId, participantNam
             const quizRef = doc(db, `users/${userId}/quizTables/${quizTableId}/quizzes/${quizName}`);
             onSnapshot(quizRef, quizSnapshot => {
                 if (!quizSnapshot.exists()) {
-                    alert('Quiz not found');
+                    showMessage_color('Quiz not found', "warning");
                     return;
                 }
 
@@ -112,13 +122,13 @@ function handleParticipantJoin(quizCode, quizName, participantId, participantNam
 
     } catch (error) {
         console.error('Error handling participant join:', error);
-        alert('Failed to handle participant join. Please try again.');
+        showMessage_color('Failed to handle participant join. Please try again.', "error");
     }
 }
 
 function handleQuizSnapshot(quizSnapshot, participantId, participantName) {
     if (!quizSnapshot.exists()) {
-        alert('Quiz not found');
+        showMessage_color('Quiz not found', "warning");
         return;
     }
 
@@ -149,7 +159,11 @@ async function loadParticipantsAsHost(userId, quizName) {
 
             if (quizStatus === 'started') {
                 console.log('Quiz has started. Redirecting all users to quiz page.');
-                const redirectUrl = `quiz.html?quizName=${encodeURIComponent(quizName)}`;
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const tableId = urlParams.get('tableId');
+                const uid = urlParams.get('userId');
+                const redirectUrl = `quiz.html?quizName=${encodeURIComponent(quizName)}&tableId=${encodeURIComponent(tableId)}&userId=${encodeURIComponent(uid)}`;
                 window.location.href = redirectUrl;
             }
 
@@ -159,7 +173,7 @@ async function loadParticipantsAsHost(userId, quizName) {
 
     } catch (error) {
         console.error('Error loading participants:', error);
-        alert('An error occurred while loading participants. Please try again.');
+        showMessage_color('An error occurred while loading participants. Please try again.', "error");
     }
 }
 
@@ -205,7 +219,7 @@ async function cancelQuiz(quizName) {
 
     } catch (error) {
         console.error('Error cancelling quiz:', error);
-        alert('Failed to cancel quiz. Please try again.');
+        showMessage_color('Failed to cancel quiz. Please try again.', "warning");
     }
 }
 

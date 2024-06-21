@@ -6,12 +6,14 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
 
     const quizCode = document.querySelector('.joinInput').value.trim();
     const participantName = document.getElementById('participantName').value.trim();
+    const password = document.getElementById('quizPassword').value.trim();
 
     document.getElementById('loader').classList.remove('invisible');
 
-    if(quizCode.length < 7) {
+    if(quizCode.length < 6) {
         document.getElementById('loader').classList.add('invisible'); // Hide loader
         showMessage_color("Invalid quiz pin!", "warning");
+        return;
     }
 
     if (!quizCode || !participantName) {
@@ -33,6 +35,15 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
 
         const settingsDoc = settingsQuerySnapshot.docs[0];
         const settingsData = settingsDoc.data();
+        const settingPass = settingsData.password;
+
+        if(settingPass) {
+            if(password != settingPass) {
+                document.getElementById('loader').classList.add('invisible'); // Hide loader
+                showMessage_color('Quiz Password is incorrect', "warning");
+                return;
+            }
+        }
         const quizName = settingsData.name;
         const userId = settingsData.userId;
         const quizTableId = settingsDoc.ref.parent.parent.id;
@@ -71,7 +82,11 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
 
             // Update the quiz document with the new participant
             await updateDoc(quizRef, {
-                participants: arrayUnion({ id: participantId, name: participantName })
+                participants: arrayUnion({ 
+                    id: participantId,
+                     name: participantName,
+                     score : 0
+                    })
             });
 
             document.getElementById('loader').classList.add('invisible'); // Hide loader

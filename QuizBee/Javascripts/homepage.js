@@ -1,3 +1,5 @@
+import { auth, db, collection, getDocs, doc, getDoc, onAuthStateChanged } from "./firebase.js";
+
 const registerOpen = document.getElementById("openRegister");
 const loginOpen = document.getElementById("loginInsteadBtn");
 
@@ -22,4 +24,10 @@ registerOpen.addEventListener("click", function() {
 loginOpen.addEventListener("click", function() {
     loginCon.classList.toggle('hidden');
     registerCon.classList.toggle('hidden');
-})
+});
+
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    window.location.replace("teacher.html");
+  }
+});

@@ -1,6 +1,12 @@
 const st = {};
 var isLogin = false;
 
+const registerOpen = document.getElementById("openRegister");
+const loginOpen = document.getElementById("loginInsteadBtn");
+
+const registerCon = document.getElementById("registerBox");
+const loginCon = document.getElementById("loginBox");
+
 st.flap = document.querySelector('#flap');
 st.toggle = document.querySelector('.toggle');
 

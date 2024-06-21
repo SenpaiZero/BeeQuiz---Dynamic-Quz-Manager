@@ -1,3 +1,5 @@
+import { auth, db, collection, getDocs, doc, getDoc, onAuthStateChanged } from "./firebase.js";
+
 const createBtn = document.getElementById("teacherCreate");
 const leaderboardBtn = document.getElementById("teacherLeaderboard");
 const listBtn = document.getElementById("teacherList");
@@ -60,5 +62,9 @@ noLogoutBtn.addEventListener("click", function() {
 });
 
 yesLogoutBtn.addEventListener("click", function() {
-    window.location.href = "index.html";
+    auth.signOut().then(function() {
+        window.location.href = "index.html";
+    }).catch(function(error) {
+        console.log(error);
+    });
 });

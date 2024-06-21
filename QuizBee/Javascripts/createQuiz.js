@@ -8,6 +8,12 @@ const passCB = document.getElementById("requirePassCB");
 let questionCount = 1;
 
 document.addEventListener("DOMContentLoaded", function() {
+    auth.onAuthStateChanged(user => {
+        if (!user) {
+            window.location.replace("index.html");
+        } 
+    });
+
     const urlParams = new URLSearchParams(window.location.search);
     const action = urlParams.get('action');
     if (action === 'edit') {
@@ -212,6 +218,7 @@ createQuizBtn.addEventListener("click", async function() {
         if(existingQuizSnapshot.exists()){
             document.getElementById('loader').classList.add('invisible'); // Hide loader
             showMessage_color("A quiz with this name already exists. Please choose a different quiz name", "error");
+            console.log("exist");
             return;
         }
         

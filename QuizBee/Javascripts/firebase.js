@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword ,EmailAuthProvider,updateEmail,reauthenticateWithCredential,updatePassword,onAuthStateChanged,signOut}  from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-import { getFirestore, collection, doc, setDoc,addDoc, query, where, getDocs,getDoc,updateDoc,onSnapshot,serverTimestamp,arrayUnion,collectionGroup} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { getFirestore, collection,runTransaction, doc, setDoc,addDoc, query, where, getDocs,getDoc,updateDoc,deleteDoc,onSnapshot,serverTimestamp,arrayUnion,collectionGroup,orderBy} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDwnDOSRAHJmlFn0-rR_BFU4jfEyn45mlQ",
@@ -19,7 +19,7 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-export { auth, db, createUserWithEmailAndPassword, updateEmail,
+export { auth, db, createUserWithEmailAndPassword, updateEmail,runTransaction,orderBy,
   signInWithEmailAndPassword, reauthenticateWithCredential, updatePassword, collection, doc, setDoc, addDoc, query, where, 
-  getDocs,getDoc,updateDoc,onSnapshot,EmailAuthProvider,getFirestore,serverTimestamp,arrayUnion,collectionGroup,signOut,onAuthStateChanged}
+  getDocs,getDoc,updateDoc,onSnapshot,EmailAuthProvider,getFirestore,serverTimestamp,arrayUnion,collectionGroup,signOut,onAuthStateChanged, deleteDoc}
 

@@ -142,10 +142,10 @@ body, html {
         rgb(199, 255, 139) 0,
         rgb(199, 255, 139) 1ch,
         transparent 0,
-        transparent 1.5ch
+        transparent 1.75ch
     ) 0 100% / 10ch 2px no-repeat;
     font: 5ch 'Droid Sans Mono', consolas, monospace;
-    letter-spacing: 0.5ch;
+    letter-spacing: 0.75ch;
 }
 
 .joinInput:focus {
@@ -879,6 +879,15 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     border-bottom: 1px #170141 solid;
 }
 
+.lb-list-section {
+    color: #00d5f1;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px #170141 solid;
+}
+.lb-border-bottom {
+    border-bottom: 1px #170141 solid;
+}
 .quiz-list-header {
     margin-top: 15px;
     font-size: 30px;
@@ -928,6 +937,20 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     color: #0c0c0c;  
     background-color: rgb(132, 173, 243);
 }
+
+.lb-list-view-custom {
+    padding: 5px;
+    width: 30%;
+    font-family: fantasy;
+    border-radius: 2px;
+    border: none;
+    color: #0c0c0c;  
+    background-color: rgb(132, 173, 243);
+}
+
+.lb-list-view-custom:hover {
+    background-color: rgb(79, 126, 208);
+}
 .quiz-list-nested div:nth-child(4) button:hover {
     background-color: #006e7a !important;
 }
@@ -967,7 +990,7 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     flex-direction: column;
     width: 50%;
     height: 50%;
-    background-color: #383838;
+    background-color: #6e6e6e;
     margin: auto;
     align-items: center;
     overflow: hidden;
@@ -1140,6 +1163,35 @@ background: radial-gradient(circle, rgba(228,98,76,1) 0%, rgba(255,147,119,1) 10
     content: "";
     animation: loading-dots 1.5s steps(4, end) infinite;
 }
+
+.full-screen-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: #003670;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.full-screen-container h1, .full-screen-container h4, .full-screen-container button {
+    margin: 10px;
+    color: #00d5f1;
+    font-family: fantasy;
+    letter-spacing: 1px;
+    text-align: center;
+}
+.full-screen-container h1 {
+    margin: 0;
+    font-size: 4rem;
+}
+.full-screen-container h4 {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5rem;
+}
+.full-screen-container button {
+    width: 50vw;
+}
+
 @keyframes l1 {to{transform: rotate(0.5turn)}}
 
 @keyframes loading-dots {

@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>BeeQuiz | Quiz</title>
+    <title>BeeQuiz | Waiting</title>
     <link href="css/style.css" rel="stylesheet">
+    <link rel="icon" href="Icons/favicon.ico" type="image/x-icon"/>
 </head>
 <body class="teacherBody flat-bg">
     <div class="waiting-name-quiz">
@@ -13,11 +14,18 @@
     </div>
     <div class="waiting-container" id="participantsContainer">
         <!-- Dynamically add participants here -->
-        <div class="sketch-box sketch-box1">Nameoiahfs 1</div>
+        <div class="sketch-box sketch-box1">Name 1</div>
     </div>
     <div class="waiting-btn-container">
         <button id="cancelBtn">Cancel</button>
         <button id="startBtn">START</button>
+    </div>
+    
+    <div class="message-container invisible" id="messageCon">
+        <div>
+            <span id="textMessage"></span>
+            <button id="closeMessage">CLOSE</button>
+        </div>
     </div>
     <script type="module" src="Javascripts/firebase.js"></script>
     <script type="module" src="Javascripts/waiting-area.js"></script>
