@@ -35,7 +35,6 @@ function registerUser() {
     .then((userCredential) => {
       // User registered successfully
       document.getElementById('loader').classList.add('invisible'); // Hide loader  
-      showMessage_color("User registered successfully!", "success");
 
       // Save user to Firestore
       const rand = generateRandomNumber();
@@ -49,6 +48,7 @@ function registerUser() {
       })
       .then(() => {
         console.log("User data saved in Firestore");
+        showMessage_color("User registered successfully!", "success");
         
         // Creating a QuizTable for the new user
         const quizTableRef = collection(db, `users/${user.uid}/quizTables`);
@@ -60,7 +60,7 @@ function registerUser() {
             // Creating subcollections "quizzes" and "settings" for the new quiz table
             const quizzesRef = collection(newQuizTableRef, 'quizzes');
             const settingsRef = collection(newQuizTableRef, 'settings');
-
+            
           })
           .catch((error) => {
             document.getElementById('loader').classList.add('invisible'); // Hide loader
@@ -69,6 +69,7 @@ function registerUser() {
       })
       .catch((error) => {
         document.getElementById('loader').classList.add('invisible'); // Hide loader
+        showMessage_color(error, "error");
         console.error("Error saving user data: ", error);
       });
 

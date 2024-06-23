@@ -43,9 +43,12 @@ document.addEventListener("DOMContentLoaded", async function() {
                 });
             });
 
+
             await Promise.all(quizPromises);
             console.log('Quizzes fetched successfully');
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
         } catch (error) {
+            document.getElementById('loader').classList.add('invisible'); // Hide loader
             console.error('Error fetching quizzes:', error);
         }
     }
@@ -181,6 +184,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
             return leaderboard;
         } catch (error) {
+        document.getElementById('loader').classList.add('invisible'); // Hide loader
             console.error('Error fetching leaderboard scores:', error.message || error);
             throw error;
         }

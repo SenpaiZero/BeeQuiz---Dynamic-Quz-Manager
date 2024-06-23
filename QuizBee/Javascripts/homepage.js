@@ -28,6 +28,6 @@ loginOpen.addEventListener("click", function() {
 
 auth.onAuthStateChanged(function(user) {
   if (user) {
-    window.location.replace("teacher.html");
+   // window.location.replace("teacher.html");
   }
 });
