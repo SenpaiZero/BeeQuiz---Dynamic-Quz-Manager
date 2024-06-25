@@ -1,8 +1,4 @@
-// The place I saw this effect:
-// https://angle2.agency/
 
-// Red Staper made a NICE tutorial about this effect! You should check it out!
-// https://www.youtube.com/watch?v=LgiadQQM6mo&t=5s
 
 window.addEventListener('mousemove', handleMouseMove);
 window.addEventListener('resize', handleWindowResize);
@@ -23,7 +19,6 @@ function handleMouseMove(e) {
     span.style.transform = `translate(${speedFast}px)`
   })
 }
-//we need to recalculate width when the window is resized
 function handleWindowResize() {
   width = window.innerWidth;
 }

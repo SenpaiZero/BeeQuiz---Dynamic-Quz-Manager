@@ -34,7 +34,6 @@ function displayUserData(userData) {
     document.getElementById("username").innerText = userData.username;
     document.getElementById("email").innerText = userData.email;
 
-    //real time updates to user data
     const userDocRef = doc(db, 'users', auth.currentUser.uid);
     onSnapshot(userDocRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
@@ -48,10 +47,8 @@ function displayUserData(userData) {
     });
 }
 
-// Check authentication state before fetching user data
 auth.onAuthStateChanged(async (user) => {
     if (user) {
-        // User is authenticated then fetch and display user data
         const userData = await getCurrentUserData();
         displayUserData(userData);
     } else {

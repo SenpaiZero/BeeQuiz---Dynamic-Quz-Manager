@@ -11,13 +11,13 @@ document.addEventListener("DOMContentLoaded", function() {
         let fontSize;
 
         if (charCount < 20) {
-            fontSize = "3rem"; // Small character count, larger font size
+            fontSize = "3rem";
         } else if (charCount < 50) {
-            fontSize = "2rem"; // Medium character count, medium font size
+            fontSize = "2rem";
         } else if (charCount < 100) {
-            fontSize = "1.5rem"; // Large character count, smaller font size
+            fontSize = "1.5rem";
         } else {
-            fontSize = "1rem"; // Very large character count, smallest font size
+            fontSize = "1rem";
         }
 
         element.style.fontSize = fontSize;

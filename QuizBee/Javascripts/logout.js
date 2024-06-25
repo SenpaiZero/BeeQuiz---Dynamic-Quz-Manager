@@ -9,7 +9,6 @@ const handleLogout = () => {
     });
 };
 
-// Add event listener to the logout button
 document.getElementById('yesLogout').addEventListener('click', (e) => {
     e.preventDefault();
     handleLogout();

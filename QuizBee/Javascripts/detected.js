@@ -33,11 +33,11 @@ if(!exitBtn) {
 function requestFullscreen() {
     if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
-    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+    } else if (document.documentElement.mozRequestFullScreen) {  
         document.documentElement.mozRequestFullScreen();
-    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+    } else if (document.documentElement.webkitRequestFullscreen) {  
         document.documentElement.webkitRequestFullscreen();
-    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+    } else if (document.documentElement.msRequestFullscreen) {  
         document.documentElement.msRequestFullscreen();
     }
 }

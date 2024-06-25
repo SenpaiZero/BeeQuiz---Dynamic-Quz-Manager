@@ -202,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const userId = auth.currentUser.uid;
             const quizName = window.quizContext.quizName;
     
-            // Fetch quizTableId for the host
             const quizTableId = await getCurrentQuizTableId();
             if (!quizTableId) {
                 console.error('Quiz table ID not found.');
@@ -211,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const quizRef = doc(db, `users/${userId}/quizTables/${quizTableId}/quizzes/${quizName}`);
     
-            // Continue with updating current question index
             const quizDoc = await getDoc(quizRef);
     
             if (quizDoc.exists()) {
@@ -242,26 +240,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const usersRef = collection(db, 'users');
             const usersSnapshot = await getDocs(usersRef);
     
-            // Loop through each user document
             for (const userDoc of usersSnapshot.docs) {
                 const userId = userDoc.id;
     
-                // Access the quizTables collection for the current user
                 const quizTablesRef = collection(db, `users/${userId}/quizTables`);
                 const quizTablesSnapshot = await getDocs(quizTablesRef);
     
-                // Loop through each quiz table document for the current user
                 for (const quizTableDoc of quizTablesSnapshot.docs) {
                     const currentQuizTableId = quizTableDoc.id;
     
-                    // Check if the current quiz table ID matches the required quizTableId
                     if (currentQuizTableId === quizTableId) {
-                        // Access the specific quiz document for the quizName
                         const quizRef = doc(db, `users/${userId}/quizTables/${quizTableId}/quizzes/${quizName}`);
                         const quizDoc = await getDoc(quizRef);
     
                         if (quizDoc.exists()) {
-                            // Return the current question index from the quiz document
                             const currentQuestionIndex = quizDoc.data().currentQuestionIndex;
                             console.log(`Current question index for participant ${participantId} and quizName ${quizName}: ${currentQuestionIndex}`);
                             return currentQuestionIndex;
@@ -283,9 +275,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function startQuizTimer(duration) {
-        // Parse the custom or default timer duration
         timerDuration = parseInt(duration) || parseInt(quizData.settings.defaultTimer) || 30;
-        clearInterval(timerInterval); // Clear any existing interval
+        clearInterval(timerInterval);
     
         timerInterval = setInterval(() => {
             if (timerDuration > 0) {
@@ -295,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(timerInterval);
                 handleTimerEnd();
             }
-        }, 1000); // Update every second
+        }, 1000);
     }
     
 
@@ -315,29 +306,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const questionData = quizData.questions[currentQuestionIndex];
             const customScore = questionData.customScore || quizData.settings.defaultScore;
     
-            // Reveal correct answer immediately
             revealCorrectAnswer();
     
-            // Delay before moving to the next question to reset answer lock
             await new Promise(resolve => setTimeout(resolve, 3000));
     
-            // Move to the next question if not the last one
             if (currentQuestionIndex < quizData.questions.length - 1) {
                 currentQuestionIndex++;
-                renderQuiz(); // Update UI to show next question
+                renderQuiz();
     
-                // Apply custom timer if available, otherwise use default
                 const timerDuration = quizData.questions[currentQuestionIndex].customTimer || quizData.settings.defaultTimer;
-                startQuizTimer(timerDuration); // Restart timer for the next question
+                startQuizTimer(timerDuration);
     
-                // Reset answer lock for participants
                 if (!userIsHost) {
-                    quizState.answerLocked = false; // Ensure answer lock is reset
+                    quizState.answerLocked = false;
                     quizState.selectedAnswer = null;
                     quizState.selectedParticipantId = window.quizContext.participantId;
                 }
     
-                // Update current question index based on user type
                 const newIndex = currentQuestionIndex;
                 if (userIsHost) {
                     await updateCurrentQuestionIndexForHost(newIndex);
@@ -345,14 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     await updateCurrentQuestionIndexForParticipants(participantId, quizName);
                 }
     
-                // Calculate score for participants if the selected answer is correct
                 if (!userIsHost && quizState.selectedAnswer !== null && quizState.answerLocked) {
                     const selectedAnswerDiv = answerContainer.querySelector(`[data-choice-index="${quizState.selectedAnswer}"]`);
                     if (selectedAnswerDiv) {
                         if (questionData.correctChoices.includes(quizState.selectedAnswer)) {
-                            // Calculate score based on custom score or default score
                             quizState.score += parseInt(customScore) || parseInt(quizData.settings.defaultScore);
-                            // Save participant score immediately after updating score
                             await saveParticipantScore(
                                 window.quizContext.participantId,
                                 quizState.score
@@ -363,12 +345,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
     
-                lockAnswerChoices(); // Enable answer choices for participants
+                lockAnswerChoices();
             } else {
                 console.log('Quiz ended');
-                // Reveal the correct answer for the last question
                 revealCorrectAnswer();
-                // Proceed to leaderboard after quiz ends
                 redirectToLeaderboard();
             }
         } catch (error) {
@@ -378,11 +358,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function redirectToLeaderboard() {
         try {
-            // Prepare query parameters
             const queryParams = new URLSearchParams();
             queryParams.set('quizName', window.quizContext.quizName);
     
-            // Optionally, add participantId if available
             if (window.quizContext.participantId) {
                 queryParams.set('participantId', window.quizContext.participantId);
             }
@@ -396,14 +374,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 queryParams.set('userId', userId);
             }
     
-            // Construct the URL for leaderboard.html
             const leaderboardUrl = `leaderboard.html?${queryParams.toString()}`;
     
-            // Delay before redirecting to leaderboard
             setTimeout(() => {
-                // Redirect to leaderboard.html
                 window.location.href = leaderboardUrl;
-            }, 10000); // Adjust delay time as needed (3000 milliseconds = 3 seconds)
+            }, 10000);
     
         } catch (error) {
             console.error('Error redirecting to leaderboard:', error.message || error);
@@ -435,12 +410,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 answerDiv.classList.remove('selected-answer', 'correct-answer', 'incorrect-answer');
     
                 if (userIsHost) {
-                    // Host sees only the correct answer in green
                     if (correctChoices.includes(choiceIndex)) {
                         answerDiv.classList.add('correct-answer');
                     }
                 } else {
-                    // Participants see correct answer in green, incorrect in red
                     if (correctChoices.includes(choiceIndex)) {
                         answerDiv.classList.add('correct-answer');
                     } else {
@@ -449,14 +422,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
     
-            // Update score for participants if the selected answer is correct and the answer was selected before the timer ended
             if (!userIsHost && quizState.selectedAnswer !== null && quizState.answerLocked) {
                 const selectedAnswerDiv = answerContainer.querySelector(`[data-choice-index="${quizState.selectedAnswer}"]`);
                 if (selectedAnswerDiv) {
                     if (correctChoices.includes(quizState.selectedAnswer)) {
                         selectedAnswerDiv.classList.add('correct-answer');
-                        //quizState.score += parseInt(quizData.settings.defaultScore); // Add default score based on settings
-                        // Save participant score immediately after updating score
                         await saveParticipantScore(
                             window.quizContext.participantId,
                             quizState.score
@@ -469,7 +439,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
     
-            // Lock answer selection after revealing correct answers
             quizState.answerLocked = true;
             quizState.selectedAnswer = null;
             quizState.selectedParticipantId = null;
@@ -486,9 +455,8 @@ document.addEventListener('DOMContentLoaded', () => {
         answerDiv.innerHTML = `<p class="ans">${choice}</p>`;
     
         if (!userIsHost) {
-            answerDiv.addEventListener('click', handleAnswerClick); // Add event listener for participant click
+            answerDiv.addEventListener('click', handleAnswerClick);
         } else {
-            // For hosts, show correct answers in green
             const questionData = quizData.questions[currentQuestionIndex];
             const correctChoices = questionData.correctChoices;
             if (correctChoices.includes(choiceIndex)) {
@@ -502,10 +470,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function lockAnswerChoices() {
         const answerContainers = document.querySelectorAll('.quiz-answer-container .quiz-answer');
         answerContainers.forEach(answerDiv => {
-            answerDiv.classList.remove('answer-disabled'); // Remove any disabled state if needed
-            answerDiv.removeEventListener('click', handleAnswerClick); // Remove existing click event listener
+            answerDiv.classList.remove('answer-disabled');
+            answerDiv.removeEventListener('click', handleAnswerClick);
             if (!quizState.answerLocked) {
-                answerDiv.addEventListener('click', handleAnswerClick); // Add click event listener if answers are not locked
+                answerDiv.addEventListener('click', handleAnswerClick);
             }
         });
     }
@@ -525,7 +493,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
     
-            // Check if this participant has already selected an answer
             if (quizState.selectedAnswer !== null) {
                 console.log('Participant has already selected an answer for this question.');
                 return;
@@ -536,20 +503,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
     
-            // Add selected-answer class to the clicked answer div
             answerDiv.classList.add('selected-answer');
             quizState.selectedAnswer = parseInt(answerDiv.dataset.choiceIndex);
-            quizState.selectedParticipantId = window.quizContext.participantId; // Store the participantId
+            quizState.selectedParticipantId = window.quizContext.participantId;
             console.log(`Participant ${window.quizContext.participantId} chose answer: ${quizState.selectedAnswer}`);
     
-            // Lock answer choices for this question after the first selection
             quizState.answerLocked = true;
     
-            // Calculate scoreToAdd based on customScore or defaultScore
             const questionData = quizData.questions[currentQuestionIndex];
             let scoreToAdd = 0;
     
-            // Use customScore if available; otherwise, use defaultScore
             if (questionData.customScore) {
                 scoreToAdd = parseInt(questionData.customScore);
             } else {
@@ -561,7 +524,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Score calculation resulted in NaN');
             }
     
-            // Update participant's score immediately
             await saveParticipantScore(
                 window.quizContext.participantId,
                 quizState.score
@@ -594,19 +556,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         let quizData = quizDoc.data();
                         let participantsArray = quizData.participants || [];
     
-                        // Check if participantsArray is an array
                         if (!Array.isArray(participantsArray)) {
                             participantsArray = [];
                         }
     
-                        // Find the index of the participant in the array, if exists
                         let participantIndex = participantsArray.findIndex(participant => participant.id === participantId);
     
                         if (participantIndex !== -1) {
-                            // Participant found, update the score
                             participantsArray[participantIndex].score = parseInt(score);
     
-                            // Update the Firestore document with the updated participants array
                             await updateDoc(quizRef, {
                                 participants: participantsArray
                             });
@@ -614,10 +572,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             console.log(`Score updated for participant ${participantId}: ${score}`);
                             return;
                         } else {
-                            // Participant not found, add them to the array
                             participantsArray.push({ id: participantId, name: window.quizContext.participantName, score: parseInt(score) });
     
-                            // Update the Firestore document with the updated participants array
                             await updateDoc(quizRef, {
                                 participants: participantsArray
                             });
@@ -660,14 +616,12 @@ document.addEventListener('DOMContentLoaded', () => {
             questionContainer.textContent = questionData.questionText;
             answerContainer.innerHTML = '';
     
-            // Reset quizState properties
             quizState.selectedAnswer = null;
             quizState.selectedParticipantId = null;
             quizState.answerLocked = false;
     
-            // Apply custom timer if available, otherwise use default
             const timerDuration = questionData.customTimer || quizData.settings.defaultTimer;
-            startQuizTimer(timerDuration); // Pass custom or default timer duration
+            startQuizTimer(timerDuration);
     
             questionData.choices.forEach((choice, choiceIndex) => {
                 const answerDiv = createAnswerDiv(choice, choiceIndex, window.quizContext.participantId);
@@ -680,18 +634,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scoreDiv = footerContainer.querySelector('#score');
                 if (scoreDiv) {
                     scoreDiv.textContent = `Score: ${quizState.score}`;
-                    scoreDiv.style.display = 'block'; // Ensure the score is visible for participants
+                    scoreDiv.style.display = 'block';
                 }
             } else {
                 const scoreDiv = footerContainer.querySelector('#score');
                 if (scoreDiv) {
-                    scoreDiv.style.display = 'none'; // Hide the score for the host
+                    scoreDiv.style.display = 'none';
                 }
             }
     
             footerContainer.querySelector('.quiz-footer-item:nth-child(4)').textContent = window.quizContext.quizName;
     
-            // After rendering the question and choices, lock answer choices for participants
             lockAnswerChoices();
     
         } catch (error) {
@@ -706,21 +659,18 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             let userId = null;
     
-            // Check if the current user is authenticated
             if (auth.currentUser) {
-                userId = auth.currentUser.uid; // Use auth.currentUser.uid if available
+                userId = auth.currentUser.uid;
             } else if (window.quizContext.participantId) {
-                userId = window.quizContext.participantId; // Fallback to participantId if auth.currentUser is null
+                userId = window.quizContext.participantId;
             } else {
                 console.error('User ID not available. Cannot get current quiz table ID.');
                 return null;
             }
     
-            // Fetch quizTableId for the user from Firestore
             const quizTablesRef = collection(db, `users/${userId}/quizTables`);
             const quizTablesSnapshot = await getDocs(quizTablesRef);
     
-            // Example: Fetching the first quizTableId
             if (!quizTablesSnapshot.empty) {
                 const quizTableId = quizTablesSnapshot.docs[0].id;
                 console.log('Current quiz table ID:', quizTableId);

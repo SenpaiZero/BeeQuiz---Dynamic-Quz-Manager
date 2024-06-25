@@ -1,9 +1,8 @@
-import { auth, db, collection, getDocs, doc, getDoc, onAuthStateChanged } from "./firebase.js"; // Adjust the import according to your setup
+import { auth, db, collection, getDocs, doc, getDoc, onAuthStateChanged } from "./firebase.js";
 
 let isArchive = false;
 
 document.addEventListener("DOMContentLoaded", async function() {
-    // Fetch quizzes for the logged-in user
     async function fetchUserQuizzes(userId) {
         try {
             const quizListContainer = document.getElementById('quizList');
@@ -13,21 +12,17 @@ document.addEventListener("DOMContentLoaded", async function() {
             }
             quizListContainer.innerHTML = "";
 
-            // Get the quiz tables collection for the current user
             const quizTablesRef = collection(db, `users/${userId}/quizTables`);
             const quizTablesSnapshot = await getDocs(quizTablesRef);
 
             const quizPromises = [];
 
-            // Loop through each quiz table of the user
             quizTablesSnapshot.forEach(async table => {
                 const tableId = table.id;
 
-                // Get the quizzes collection inside the current quiz table
                 const quizzesRef = collection(db, `users/${userId}/quizTables/${tableId}/quizzes`);
                 const quizzesSnapshot = await getDocs(quizzesRef);
 
-                // Loop through each quiz in the current quiz table
                 quizzesSnapshot.forEach(async quiz => {
                     const quizName = quiz.id;
                     const settingsRef = doc(db, `users/${userId}/quizTables/${tableId}/settings/${quizName}`);
@@ -46,9 +41,9 @@ document.addEventListener("DOMContentLoaded", async function() {
 
             await Promise.all(quizPromises);
             console.log('Quizzes fetched successfully');
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
         } catch (error) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             console.error('Error fetching quizzes:', error);
         }
     }
@@ -89,10 +84,9 @@ document.addEventListener("DOMContentLoaded", async function() {
             await fetchUserQuizzes(userId);
         }
         
-        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        document.getElementById('loader').classList.add('invisible');
     });
 
-    // Display a quiz
     async function displayQuiz(quizName, participants) {
         document.getElementById('loader').classList.remove('invisible');
         const quizListContainer = document.getElementById('quizList');
@@ -133,7 +127,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             
         document.getElementById("list-lb").innerHTML = qName.textContent;
         });
-        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        document.getElementById('loader').classList.add('invisible');
     }
 
     async function fetchLeaderboardScores(quizName) {
@@ -178,19 +172,17 @@ document.addEventListener("DOMContentLoaded", async function() {
                 }
             }
 
-            // Sort leaderboard by score in descending order
             leaderboard.sort((a, b) => b.score - a.score);
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
 
             return leaderboard;
         } catch (error) {
-        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        document.getElementById('loader').classList.add('invisible');
             console.error('Error fetching leaderboard scores:', error.message || error);
             throw error;
         }
     }
 
-    // Check if user is logged in and get their ID
     onAuthStateChanged(auth, user => {
         if (user) {
             const userId = user.uid;

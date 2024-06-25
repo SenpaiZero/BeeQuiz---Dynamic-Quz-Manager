@@ -6,13 +6,11 @@ const listBtn = document.getElementById("teacherList");
 const logoutBtn = document.getElementById("teacherLogout");
 const updateContainer = document.getElementById("updateContainer");
 
-// Id's for update information
 const updateInfoBtn = document.getElementById("updateInfoBtn");
 const closeInfoBtn = document.getElementById("closeInfoBtn");
 const infoContainer = document.getElementById("updateInfoBox");
 const showUpdateInfoBtn = document.getElementById("updateInformationBtn");
 
-// Id's for change password
 const updatePassBtn = document.getElementById("updatePassBtn");
 const closePassBtn = document.getElementById("closePassBtn");
 const changePassContainer = document.getElementById("updatePassBox");

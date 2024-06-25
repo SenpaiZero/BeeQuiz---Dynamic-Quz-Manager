@@ -11,16 +11,14 @@ function registerUser() {
 
   document.getElementById('loader').classList.remove('invisible');
 
-  // Check if any of the input fields are empty
   if (!fullName || !username || !email || !password || !confirmPassword) {
-    document.getElementById('loader').classList.add('invisible'); // Hide loader
+    document.getElementById('loader').classList.add('invisible');
     showMessage_color("Please fill in all fields.", "warning");
     return;
   }
 
-  // Check if passwords match
   if (password !== confirmPassword) {
-    document.getElementById('loader').classList.add('invisible'); // Hide loader
+    document.getElementById('loader').classList.add('invisible');
     showMessage_color("Passwords do not match!", "warning");
     return;
   }
@@ -30,13 +28,10 @@ function registerUser() {
     return '100' + randomPart.toString();
   }
 
-  // Create user with email and password
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // User registered successfully
-      document.getElementById('loader').classList.add('invisible'); // Hide loader  
+      document.getElementById('loader').classList.add('invisible');
 
-      // Save user to Firestore
       const rand = generateRandomNumber();
       const user = userCredential.user;
       const userRef = doc(db, 'users', user.uid); 
@@ -50,41 +45,37 @@ function registerUser() {
         console.log("User data saved in Firestore");
         showMessage_color("User registered successfully!", "success");
         
-        // Creating a QuizTable for the new user
         const quizTableRef = collection(db, `users/${user.uid}/quizTables`);
         const newQuizTableRef = doc(quizTableRef);
         setDoc(newQuizTableRef, {})
           .then(() => {
             console.log("Quiz table created");
 
-            // Creating subcollections "quizzes" and "settings" for the new quiz table
             const quizzesRef = collection(newQuizTableRef, 'quizzes');
             const settingsRef = collection(newQuizTableRef, 'settings');
             
           })
           .catch((error) => {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             console.error("Error creating quiz table: ", error);
           });
       })
       .catch((error) => {
-        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        document.getElementById('loader').classList.add('invisible');
         showMessage_color(error, "error");
         console.error("Error saving user data: ", error);
       });
 
-      // Clear the registration form
       const registerForm = document.getElementById('registerForm');
       if (registerForm) {
         registerForm.reset();
       }
 
-      // Switch to the login form
       document.getElementById('registerBox').classList.add('hidden');
       document.getElementById('loginBox').classList.remove('hidden');
     })
     .catch((error) => {
-      document.getElementById('loader').classList.add('invisible'); // Hide loader
+      document.getElementById('loader').classList.add('invisible');
       console.error(`Error: ${error.message}`);
       showMessage_color('Error: ' + error.message, "error");
     });

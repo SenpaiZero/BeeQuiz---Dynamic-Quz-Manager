@@ -15,7 +15,6 @@ const regEmail = document.getElementById("");
 const regPass = document.getElementById("");
 const regConfirmPass = document.getElementById("");
 
-// OPen register
 registerOpen.addEventListener("click", function() {
     loginCon.classList.toggle('hidden');
     registerCon.classList.toggle('hidden');
@@ -28,6 +27,5 @@ loginOpen.addEventListener("click", function() {
 
 auth.onAuthStateChanged(function(user) {
   if (user) {
-   // window.location.replace("teacher.html");
   }
 });

@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 leaderboardContainer.appendChild(leaderboardItem);
             });
 
-            // Display top 3 participants separately
             if (participants.length > 0) {
                 top1Name.textContent = participants[0].name;
                 top1Score.textContent = participants[0].score;
@@ -98,7 +97,6 @@ async function fetchLeaderboardScores(quizName) {
             }
         }
 
-        // Sort leaderboard by score in descending order
         leaderboard.sort((a, b) => b.score - a.score);
 
         return leaderboard;

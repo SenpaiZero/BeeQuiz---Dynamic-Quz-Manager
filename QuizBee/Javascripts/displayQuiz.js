@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             isFinish = true;
         }
 
-        // Get the current user's ID and fetch the quizzes again
         const user = auth.currentUser;
         if (user) {
             const userId = user.uid;
@@ -72,7 +71,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             isArchive = true;
         }
     
-        // Get the current user's ID and fetch the quizzes again
         const user = auth.currentUser;
         if (user) {
             const userId = user.uid;
@@ -81,12 +79,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     });
 
-    // Fetch quizzes for the logged-in user
     function fetchUserQuizzes(userId) {
         document.getElementById('loader').classList.remove('invisible');
         return new Promise(async (resolve, reject) => {
             try {
-                // Clear the quiz list container
                 const quizListContainer = document.getElementById('quizList');
                 if (!quizListContainer) {
                     console.error('Quiz list container not found');
@@ -107,26 +103,20 @@ document.addEventListener('DOMContentLoaded', async function () {
                 teacherHomeBtn.addEventListener('click', function () {
                     window.location.href = 'teacher.html';
                 });
-                // Get the quiz tables collection for the current user
                 const quizTablesRef = collection(db, `users/${userId}/quizTables`);
                 const quizTablesSnapshot = await getDocs(quizTablesRef);
 
-                // Array to store promises for fetching quizzes
                 const quizPromises = [];
 
-                // Loop through each quiz table of the user
                 quizTablesSnapshot.forEach(async table => {
                     const tableId = table.id;
 
-                    // Get the quizzes collection inside the current quiz table
                     const quizzesRef = collection(db, `users/${userId}/quizTables/${tableId}/quizzes`);
                     const quizzesSnapshot = await getDocs(quizzesRef);
 
-                    // Loop through each quiz in the current quiz table
                     quizzesSnapshot.forEach(async quiz => {
                         const quizName = quiz.id;
 
-                        // Get the settings document for the current quiz
                         const settingsRef = doc(db, `users/${userId}/quizTables/${tableId}/settings/${quizName}`);
                         const settingsSnapshot = await getDoc(settingsRef);
                         if (settingsSnapshot.exists()) {
@@ -147,13 +137,11 @@ document.addEventListener('DOMContentLoaded', async function () {
                                 finished_archived++;
                             }
 
-                            // Push the promise for displaying quiz data into the array
                             document.getElementById("created").textContent = created.toString();
                             document.getElementById("created_archived").textContent = created_archived.toString();
                             document.getElementById("finished").textContent = finished.toString();
                             document.getElementById("finished_archived").textContent = finished_archived.toString();
 
-                            // Filter quizzes based on the isArchive state
                         if ((isArchive && ((status === "created_archived" && !isFinish) || (status === "finished_archived" && isFinish))) || 
                             (!isArchive && ((status === "created" && !isFinish) || (status === "finished" && isFinish)))) {
                                 quizPromises.push(displayQuiz(quizName, code, password, tableId, status, userId));
@@ -162,7 +150,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                     });
                 });
 
-                // Resolve all promises once all quizzes are fetched and displayed
                 Promise.all(quizPromises)
                     .then(() => {
                         document.getElementById('loader').classList.add('invisible');
@@ -172,7 +159,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                         document.getElementById('loader').classList.add('invisible');
                         reject(error);
                     });
-                    document.getElementById('loader').classList.add('invisible'); // Hide loader
+                    document.getElementById('loader').classList.add('invisible');
                     console.log(created);
             } catch (error) {
                 reject(error);
@@ -180,7 +167,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
-    // Display a quiz
     function displayQuiz(quizName, code, password, tableId, status, userId) {
         const quizListContainer = document.getElementById('quizList');
         if (!quizListContainer) {
@@ -250,7 +236,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             return newPopupYes;
         }
 
-        // Edit
 
         const editsButtons = document.querySelectorAll('.edit-btn');
         editsButtons.forEach(button => {
@@ -264,7 +249,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
         });
 
-        // Event listener for "Start" button
         const startButtons = document.querySelectorAll('.start-btn');
         startButtons.forEach(button => {
             button.addEventListener('click', function () {
@@ -278,7 +262,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 console.log('quizName:', quizName);
 
                 popupYes = clearPopupListeners();
-                console.log(userId); // Check if userId is defined
+                console.log(userId);
 
                 popupYes.addEventListener("click", async function handlePopupYesClick() {
                     try {
@@ -286,11 +270,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                             const code = codeElement ? codeElement.textContent.trim() : null;
                             console.log(`Starting quiz: ${quizName}`);
 
-                            // Update quiz status to "waiting" in Firestore
                             const quizRef = doc(db, `users/${userId}/quizTables/${tableId}/quizzes/${quizName}`);
                             await updateDoc(quizRef, { status: 'waiting' });
 
-                            // Redirect to waiting-area.html with quizName as a query parameter
                             window.location.href = `waiting-area.html?quizName=${encodeURIComponent(quizName)}&quizCode=${encodeURIComponent(code)}&userId=${(userId)}&tableId=${encodeURIComponent(tableId)}`;
                         } else {
                             console.error('Quiz name not found or empty.');
@@ -325,18 +307,16 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 popupYes.addEventListener("click", async function handlePopupYesClick() {
                     try {
-                        // Update the quiz status in Firestore
                         const updateData = {};
                         const quizRef = doc(db, `users/${userId}/quizTables/${tableId}/settings/${quizName}`);
                         updateData.status = status === "created" ? "created_archived" :
                             status === "created_archived" ? "created" :
                                 status === "finished" ? "finished_archived" :
-                                    "finished"; // for "finished_archived"
+                                    "finished";
 
                         console.log(`Updating quiz: ${quizName} from ${status} to ${updateData.status}`);
 
 
-                        // Update the counters
                         if (status === "created") {
                             created--;
                             created_archived++;
@@ -351,21 +331,18 @@ document.addEventListener('DOMContentLoaded', async function () {
                             finished_archived--;
                         }
 
-                        // Get the current user's ID and fetch the quizzes again
                         const user = auth.currentUser;
                         if (user) {
                             const userId = user.uid;
                             document.querySelectorAll('quiz-can-remove').forEach(e => e.remove());
                             await fetchUserQuizzes(userId);
                         }
-                        // Update the displayed counters
                         document.getElementById("created").textContent = created.toString();
                         document.getElementById("created_archived").textContent = created_archived.toString();
                         document.getElementById("finished").textContent = finished.toString();
                         document.getElementById("finished_archived").textContent = finished_archived.toString();
                         await updateDoc(quizRef, updateData);
 
-                        // Close the popup
                         popupTitle.innerHTML = "";
                         popupCon.classList.add("invisible");
                     } catch (error) {
@@ -382,7 +359,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
-    // Check if user is logged in and get their ID
     auth.onAuthStateChanged(user => {
         if (user) {
             const userId = user.uid;

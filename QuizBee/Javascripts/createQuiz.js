@@ -131,36 +131,30 @@ function updateQuestionNumbers() {
     });
 }
 
-// Save to Firebase
 const createQuizBtn = document.getElementById("createQuizBtn");
 createQuizBtn.addEventListener("click", async function() {
     
     document.getElementById('loader').classList.remove('invisible');
 
     try {
-        // Get the user ID
         const user = auth.currentUser;
         if (!user) {
-        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        document.getElementById('loader').classList.add('invisible');
             showMessage_color("You need to be logged in to create a quiz.", "error");
             return;
         }
         
-        // Get the quizTable collection for the current user
         const quizTablesRef = collection(db, `users/${user.uid}/quizTables`);
         const quizTablesSnapshot = await getDocs(quizTablesRef);
         
-        // user has only one quiz table, get its ID
         const quizTableId = quizTablesSnapshot.docs[0].id;
         
-        // Check if quizTableId is defined
         if (!quizTableId) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             showMessage_color("No quiz table found for the current user.", "error");
             return;
         }
         
-        // Get quiz data from the form
         const quizName = document.getElementById("quizNameTxt").value;
         const quizDesc = document.getElementById("quizDescTxt").value;
         const quizCode = document.getElementById("quizCodeTxt").value;
@@ -169,60 +163,56 @@ createQuizBtn.addEventListener("click", async function() {
         const requirePassword = document.getElementById("requirePassCB").checked;
         const quizPassword = document.getElementById("quizPasswordTxt").value;
 
-        // Validate required fields
         if(!quizName) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             showMessage_color("Quiz Name field are empty. Please fill it up.", "warning");
             return;
         }
         if(!quizDesc) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             showMessage_color("Quiz Description field is empty. Please fill it up.", "warning");
             return;
         }
         if(!quizCode) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             showMessage_color("Quiz Code field is empty. Please fill it up.", "warning");
             return;
         }
         if(!defaultScore) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             showMessage_color("Default Score field is empty. Please fill it up.", "warning");
             return;
         }
         if(!isNumberOnly(defaultScore)) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             showMessage_color("Only numbers are allowed in Default Score.", "warning");
             return;
         }
         if(!defaultTimer) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             showMessage_color("Default Timer field is empty. Please fill it up.", "warning");
             return;
         }
         if(!isNumberOnly(defaultTimer)) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             showMessage_color("Only numbers are allowed in Default Timer.", "warning");
             return;
         }
-        // If requiredPassword is checked, Password field required to fill
         if (requirePassword && !quizPassword) {
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             showMessage_color("Password field is empty. Please fill it up.", "warning");
             return;
         }        
 
-        //Check first if a quiz with the same name already exists
         const existingQuizRef = doc(db, `users/${user.uid}/quizTables/${quizTableId}/quizzes/${quizName}`);
         const existingQuizSnapshot = await getDoc(existingQuizRef);
         if(existingQuizSnapshot.exists()){
-            document.getElementById('loader').classList.add('invisible'); // Hide loader
+            document.getElementById('loader').classList.add('invisible');
             showMessage_color("A quiz with this name already exists. Please choose a different quiz name", "error");
             console.log("exist");
             return;
         }
         
-        // Collect quiz data from the form
         let hasError = false;
         const quizData = [];
         const questionForms = document.querySelectorAll(".createForm");
@@ -237,55 +227,52 @@ createQuizBtn.addEventListener("click", async function() {
                 return choiceIndex;
             }).filter(index => index !== -1);
 
-            // Validate question and choices
             if (!questionText) {
-                document.getElementById('loader').classList.add('invisible'); // Hide loader
+                document.getElementById('loader').classList.add('invisible');
                 showMessage_color("A question field is empty. Please fill it up.", "warning");
                 hasError = true;
                 return;
             }
             if (choices.some(choice => !choice)) {
-                document.getElementById('loader').classList.add('invisible'); // Hide loader
+                document.getElementById('loader').classList.add('invisible');
                 showMessage_color("One or more answer fields are empty. Please fill them up.", "warning");
                 hasError = true;
                 return;
             }
             if (correctChoiceIndices.length === 0) {
-                document.getElementById('loader').classList.add('invisible'); // Hide loader
+                document.getElementById('loader').classList.add('invisible');
                 showMessage_color("No correct answer is selected. Please select at least one correct answer.", "warning");
                 hasError = true;
                 return;
             }
 
-            // Enable or disable the custom settings input fields based on checkBox status (checked or not)
             const customTimerChecked = form.querySelector(".custom-timer").checked;
             const customScoreChecked = form.querySelector(".custom-score").checked;
             const timerValue = form.querySelector(".timer-value").value;
             const scoreValue = form.querySelector(".score-value").value;
       
-            // Validate custom settings
             if (customTimerChecked && !timerValue) {
-                document.getElementById('loader').classList.add('invisible'); // Hide loader
+                document.getElementById('loader').classList.add('invisible');
                 showMessage_color("Please fill in the custom timer value.", "warning");
                 hasError = true;
                 return;
             }
 
             if (customScoreChecked && !scoreValue) {
-                document.getElementById('loader').classList.add('invisible'); // Hide loader
+                document.getElementById('loader').classList.add('invisible');
                 showMessage_color("Please fill in the custom score value.", "warning");
                 hasError = true;
                 return;
             }
 
             if (customScoreChecked && !isNumberOnly(scoreValue)) {
-                document.getElementById('loader').classList.add('invisible'); // Hide loader
+                document.getElementById('loader').classList.add('invisible');
                 showMessage_color("Only numbers are allowed in custom score.", "warning");
                 hasError = true;
                 return;
             }
             if (customTimerChecked && !isNumberOnly(timerValue)) {
-                document.getElementById('loader').classList.add('invisible'); // Hide loader
+                document.getElementById('loader').classList.add('invisible');
                 showMessage_color("Only numbers are allowed in custom timer.", "warning");
                 hasError = true;
                 return;
@@ -302,7 +289,6 @@ createQuizBtn.addEventListener("click", async function() {
 
         if (hasError) return;
         
-        // Save quiz settings within the specific quiz document in the settings sub-collection
         const settingsRef = doc(db, `users/${user.uid}/quizTables/${quizTableId}/settings/${quizName}`);
         await setDoc(settingsRef, {
             name: quizName,
@@ -317,15 +303,12 @@ createQuizBtn.addEventListener("click", async function() {
             userId: user.uid
         });
 
-        // Reference to the specific quiz inside the quizzes collection, named by quizName
         const quizRef = doc(db, `users/${user.uid}/quizTables/${quizTableId}/quizzes/${quizName}`);
 
-        // Save the quiz document
         await setDoc(quizRef, {
             status: 'created'
         });
 
-        // Save each quiz question as a document within the questions sub-collection
         const questionsRef = collection(quizRef, "questions");
         await Promise.all(quizData.map(async (question) => {
             await addDoc(questionsRef, question);
@@ -334,7 +317,7 @@ createQuizBtn.addEventListener("click", async function() {
         showMessage_redirect_color("Quiz saved successfully!", "quizList.html", "success");
 
     } catch (error) {
-        document.getElementById('loader').classList.add('invisible'); // Hide loader
+        document.getElementById('loader').classList.add('invisible');
         console.error("Error saving quiz: ", error);
         showMessage_color("Failed to save quiz. Please try again.", "error");
     }
